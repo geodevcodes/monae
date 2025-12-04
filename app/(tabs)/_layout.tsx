@@ -1,7 +1,7 @@
 import images from "@/constants/images";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import Entypo from "@expo/vector-icons/Entypo";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import Octicons from "@expo/vector-icons/Octicons";
 import { Tabs } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
@@ -11,38 +11,41 @@ const TabIcon = ({
   focused,
   Icon,
   title,
+  isCenter,
 }: {
   focused: boolean;
   Icon: React.ReactNode;
   title: string;
+  isCenter?: boolean;
 }) => (
-  <View className="mt-3 items-center">
-    {Icon}
-    <Text
-      className={`${
-        focused
-          ? "text-[#ff6600] font-rubik-medium"
-          : "text-[#666876] font-rubik"
-      } text-xs w-full text-center mt-1`}
-    >
-      {title}
-    </Text>
+  <View
+    className={`items-center justify-center ${
+      isCenter ? "-mt-8" : "pt-4"
+    }`}
+  >
+    <View className={`${isCenter ? "" : "mb-1"}`}>{Icon}</View>
+
+    {!isCenter && (
+      <Text
+        className={`${
+          focused ? "text-[#5B5FED] font-medium" : "text-gray-400 font-rubik"
+        } text-xs w-full text-center`}
+      >
+        {title}
+      </Text>
+    )}
   </View>
 );
+
 
 const TabsLayout = () => {
   return (
     <>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: "#2664A1",
-          tabBarInactiveTintColor: "#CDCDE0",
           tabBarShowLabel: false,
           tabBarStyle: {
-            backgroundColor: "white",
             position: "absolute",
-            borderTopColor: "#D1D1D6",
-            borderTopWidth: 0.5,
             minHeight: 70,
           },
         }}
@@ -57,10 +60,10 @@ const TabsLayout = () => {
                 focused={focused}
                 title="Home"
                 Icon={
-                  <Entypo
-                    name="home"
+                  <Octicons
+                    name="home-fill"
                     size={24}
-                    color={focused ? "#ff6600" : "#666876"}
+                    color={focused ? "#5B5FED" : "#9CA3AF"}
                   />
                 }
               />
@@ -68,80 +71,80 @@ const TabsLayout = () => {
           }}
         />
         <Tabs.Screen
-          name="products"
+          name="budgets"
           options={{
-            title: "products",
+            title: "budgets",
             headerShown: false,
             tabBarIcon: ({ focused }) => (
               <TabIcon
                 focused={focused}
                 title="Budgets"
                 Icon={
-                  <AntDesign
-                    name="code-sandbox"
+                  <MaterialCommunityIcons
+                    name="calendar-check-outline"
                     size={24}
-                    color={focused ? "#ff6600" : "#666876"}
+                    color={focused ? "#5B5FED" : "#9CA3AF"}
                   />
                 }
               />
             ),
           }}
         />
+
         <Tabs.Screen
-          name="payments"
+          name="sparkles"
           options={{
-            title: "payments",
+            title: "sparkles",
+            headerShown: false,
+            tabBarIcon: ({ focused }) => (
+              <TabIcon
+                focused={focused}
+                title=""
+                isCenter={true}
+                Icon={
+                  <View className="w-16 h-16 rounded-full bg-[#5B5FED] items-center justify-center shadow-xl">
+                    <Ionicons name="sparkles" size={26} color="white" />
+                  </View>
+                }
+              />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="analytics"
+          options={{
+            title: "analytics",
             headerShown: false,
             tabBarIcon: ({ focused }) => (
               <TabIcon
                 focused={focused}
                 title="Analytics"
                 Icon={
-                  <MaterialCommunityIcons
-                    name="circle-box"
+                  <Ionicons
+                    name="stats-chart-outline"
                     size={24}
-                    color={focused ? "#ff6600" : "#666876"}
+                    color={focused ? "#5B5FED" : "#9CA3AF"}
                   />
                 }
               />
             ),
           }}
         />
-        {/* <Tabs.Screen
-          name="transfers"
-          options={{
-            title: "transfers",
-            headerShown: false,
-            tabBarIcon: ({ focused }) => (
-              <TabIcon
-                focused={focused}
-                title="Accounts"
-                Icon={
-                  <MaterialCommunityIcons
-                    name="chevron-double-right"
-                    size={24}
-                    color={focused ? "#ff6600" : "#666876"}
-                  />
-                }
-              />
-            ),
-          }}
-        /> */}
         <Tabs.Screen
-          name="transfers"
+          name="accounts"
           options={{
-            title: "transfers",
+            title: "accounts",
             headerShown: false,
             tabBarIcon: ({ focused }) => (
               <TabIcon
                 focused={focused}
                 title="Accounts"
                 Icon={
-                  <View className="w-9 h-9 rounded-full mt-4">
+                  <View className="w-10 h-10 rounded-full overflow-hidden">
                     <Image
                       source={images.avatar}
-                      resizeMode="contain"
-                      className="w-10 h-10 rounded-full"
+                      resizeMode="cover"
+                      className="w-full h-full"
                     />
                   </View>
                 }

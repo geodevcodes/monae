@@ -10,7 +10,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const Products = () => {
+const Budgets = () => {
   const { width } = Dimensions.get("window");
   const scrollY = useSharedValue(0);
 
@@ -99,4 +99,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Budgets;

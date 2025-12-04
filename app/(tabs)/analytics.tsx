@@ -13,7 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("window");
 
-const Payments = () => {
+const Analytics = () => {
   const router = useRouter();
   const scrollY = useSharedValue(0);
 
@@ -63,7 +63,9 @@ const Payments = () => {
         <View className="flex flex-col mt-4">
           {paymentData.map((item, index) => (
             <TouchableOpacity
-              onPress={() => router.push(`/(others)/payments-details/${item.id}`)}
+              onPress={() =>
+                router.push(`/(others)/payments-details/${item.id}`)
+              }
               key={index}
               className="flex flex-row items-center justify-between py-3"
             >
@@ -91,4 +93,4 @@ const Payments = () => {
   );
 };
 
-export default Payments;
+export default Analytics;

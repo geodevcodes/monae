@@ -19,7 +19,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("window");
 
-const Transfers = () => {
+const Accounts = () => {
   const router = useRouter();
   const scrollY = useSharedValue(0);
 
@@ -218,4 +218,4 @@ const Transfers = () => {
   );
 };
 
-export default Transfers;
+export default Accounts;
