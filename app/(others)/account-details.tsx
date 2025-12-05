@@ -1,4 +1,4 @@
-import { activitiesData } from "@/lib/data/activitiesData";
+import { activitiesData } from "@/lib/data/budgetData";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";

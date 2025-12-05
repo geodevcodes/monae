@@ -1,7 +1,6 @@
 import images from "@/constants/images";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import Octicons from "@expo/vector-icons/Octicons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import Entypo from "@expo/vector-icons/Entypo";
 import { Tabs } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
@@ -11,32 +10,24 @@ const TabIcon = ({
   focused,
   Icon,
   title,
-  isCenter,
 }: {
   focused: boolean;
   Icon: React.ReactNode;
   title: string;
-  isCenter?: boolean;
 }) => (
-  <View
-    className={`items-center justify-center ${
-      isCenter ? "-mt-8" : "pt-4"
-    }`}
-  >
-    <View className={`${isCenter ? "" : "mb-1"}`}>{Icon}</View>
-
-    {!isCenter && (
-      <Text
-        className={`${
-          focused ? "text-[#5B5FED] font-medium" : "text-gray-400 font-rubik"
-        } text-xs w-full text-center`}
-      >
-        {title}
-      </Text>
-    )}
+  <View className="mt-3 items-center">
+    {Icon}
+    <Text
+      className={`${
+        focused
+          ? "text-[#5B5FED] font-rubik-medium"
+          : "text-[#666876] font-rubik"
+      } text-xs w-full text-center mt-1`}
+    >
+      {title}
+    </Text>
   </View>
 );
-
 
 const TabsLayout = () => {
   return (
@@ -45,6 +36,7 @@ const TabsLayout = () => {
         screenOptions={{
           tabBarShowLabel: false,
           tabBarStyle: {
+            backgroundColor: "white",
             position: "absolute",
             minHeight: 70,
           },
@@ -60,10 +52,10 @@ const TabsLayout = () => {
                 focused={focused}
                 title="Home"
                 Icon={
-                  <Octicons
-                    name="home-fill"
+                  <Entypo
+                    name="home"
                     size={24}
-                    color={focused ? "#5B5FED" : "#9CA3AF"}
+                    color={focused ? "#5B5FED" : "#666876"}
                   />
                 }
               />
@@ -83,14 +75,13 @@ const TabsLayout = () => {
                   <MaterialCommunityIcons
                     name="calendar-check-outline"
                     size={24}
-                    color={focused ? "#5B5FED" : "#9CA3AF"}
+                    color={focused ? "#5B5FED" : "#666876"}
                   />
                 }
               />
             ),
           }}
         />
-
         <Tabs.Screen
           name="sparkles"
           options={{
@@ -100,7 +91,6 @@ const TabsLayout = () => {
               <TabIcon
                 focused={focused}
                 title=""
-                isCenter={true}
                 Icon={
                   <View className="w-16 h-16 rounded-full bg-[#5B5FED] items-center justify-center shadow-xl">
                     <Ionicons name="sparkles" size={26} color="white" />
@@ -123,7 +113,7 @@ const TabsLayout = () => {
                   <Ionicons
                     name="stats-chart-outline"
                     size={24}
-                    color={focused ? "#5B5FED" : "#9CA3AF"}
+                    color={focused ? "#5B5FED" : "#666876"}
                   />
                 }
               />
@@ -140,7 +130,7 @@ const TabsLayout = () => {
                 focused={focused}
                 title="Accounts"
                 Icon={
-                  <View className="w-10 h-10 rounded-full overflow-hidden">
+                  <View className="w-8 h-8 mt-2 rounded-full overflow-hidden">
                     <Image
                       source={images.avatar}
                       resizeMode="cover"
@@ -153,7 +143,7 @@ const TabsLayout = () => {
           }}
         />
       </Tabs>
-      <StatusBar style="auto" animated backgroundColor="#ff6600" />
+      <StatusBar style="auto" animated backgroundColor="#5B5FED" />
     </>
   );
 };

@@ -3,13 +3,13 @@ import comingsoon from "@/assets/images/comingsoon.jpeg";
 import trash from "@/assets/images/empty.png";
 import emptybox from "@/assets/images/emptybox.jpeg";
 import brandLogo from "@/assets/images/icon.png";
-import pension from "@/assets/images/pension.jpeg";
+import walletBg from "@/assets/images/wallet-bg.png";
 
 export default {
   avatar,
   trash,
-  pension,
   comingsoon,
   emptybox,
   brandLogo,
+  walletBg,
 };

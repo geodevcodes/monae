@@ -44,12 +44,11 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="(others)/transactions" options={{ headerShown: false }} />
-        <Stack.Screen name="(others)/fx-transfer" options={{ headerShown: false }} />
-        <Stack.Screen name="(others)/fx-sales" options={{ headerShown: false }} />
         <Stack.Screen name="(others)/account-details" options={{ headerShown: false }} />
-        <Stack.Screen name="(others)/funding-source" options={{ headerShown: false }} />
-        <Stack.Screen name="(others)/payments-details/[id]" options={{ headerShown: false }} />
+        <Stack.Screen name="(others)/account-details/[id]" options={{ headerShown: false }} />
+        <Stack.Screen name="(others)/budget-details/[id]" options={{ headerShown: false }} />
+        <Stack.Screen name="(others)/create-budget" options={{ headerShown: false }} />
+        <Stack.Screen name="(others)/connected-banks" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="index" options={{ headerShown: false }} />
       </Stack>

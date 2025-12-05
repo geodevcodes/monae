@@ -1,4 +1,4 @@
-import { beneficiariesFilters } from "@/lib/data/transfersData";
+import { beneficiariesFilters } from "@/lib/data/accountData";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import { ScrollView, Text, TouchableOpacity } from "react-native";
