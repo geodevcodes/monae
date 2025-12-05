@@ -8,6 +8,7 @@ export const spendingData = [
     bg: "#F3E8FF",
     borderColor: "#DDD6FE",
     icon: "🏠",
+    href: "/(others)/budget-details/home_utilities_3",
   },
   {
     id: "food_2",
@@ -17,6 +18,7 @@ export const spendingData = [
     bg: "#E0F2FE",
     borderColor: "#BAE6FD",
     icon: "🍔",
+    href: "/(others)/budget-details/food_budget_1",
   },
   {
     id: "shopping_3",
@@ -26,6 +28,7 @@ export const spendingData = [
     bg: "#DCFCE7",
     borderColor: "#BBF7D0",
     icon: "🛍️",
+    href: "/(others)/budget-details/food_budget_1",
   },
   {
     id: "transport_4",
@@ -35,6 +38,7 @@ export const spendingData = [
     bg: "#CCFBF1",
     borderColor: "#99F6E4",
     icon: "🚗",
+    href: "/(others)/budget-details/food_budget_1",
   },
   {
     id: "subscription_bills_5",
@@ -44,6 +48,7 @@ export const spendingData = [
     bg: "#FEF9C3",
     borderColor: "#FEF08A",
     icon: "⚡",
+    href: "/(others)/budget-details/entertainment_4",
   },
   {
     id: "personal_care_wellness_6",
@@ -53,5 +58,6 @@ export const spendingData = [
     bg: "#FFE4E6",
     borderColor: "#FECDD3",
     icon: "🧘",
+    href: "/(others)/budget-details/healthcare_5",
   },
 ];

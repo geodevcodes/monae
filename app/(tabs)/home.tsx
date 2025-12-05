@@ -177,6 +177,7 @@ const Home = () => {
               {spendingData.map((item, index) => (
                 <TouchableOpacity
                   key={index}
+                  onPress={() => router.push(item.href as any)}
                   className="flex flex-row items-center justify-between py-3"
                 >
                   <View className="flex flex-row items-center gap-3">
