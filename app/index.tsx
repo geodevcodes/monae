@@ -6,5 +6,5 @@ export default function Index() {
   // if (isSignedIn) return <Redirect href="/(tabs)/home" />;
   // return <Redirect href="/(auth)/sign-in" />;
   // <Redirect href="/(auth)/pin-screen" />;
-  return <Redirect href="/(tabs)/home" />;
+  return <Redirect href="/(auth)/welcome" />;
 }

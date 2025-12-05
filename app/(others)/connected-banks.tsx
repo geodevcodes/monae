@@ -2,7 +2,7 @@ import { connectedBanksData } from "@/lib/data/connectedBanksData";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { useRouter } from "expo-router";
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import Animated from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -43,15 +43,12 @@ const ConnectedBanks = () => {
                 className="flex flex-row items-center justify-between py-3"
               >
                 <View className="flex flex-row items-center gap-3">
-                  <View
-                    style={{
-                      backgroundColor: item.bg,
-                      borderColor: item.borderColor,
-                      borderWidth: 1,
-                    }}
-                    className="p-3 rounded-full"
-                  >
-                    {item.icon}
+                  <View className="p-0.5 w-14 h-14 border border-gray-300 rounded-full overflow-hidden">
+                    <Image
+                      source={item.icon}
+                      resizeMode="cover"
+                      className="w-full h-full rounded-full"
+                    />
                   </View>
                   <View className="gap-2">
                     <Text className="text-base font-semibold text-gray-600">

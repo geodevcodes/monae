@@ -17,6 +17,12 @@ export default function AuthLayout() {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="welcome"
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack>
       <StatusBar style="auto" animated backgroundColor="#ff6600" />
     </>

@@ -19,7 +19,7 @@ import Animated from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Home = () => {
-  const [hiddenBalance, setHiddenBalance] = useState(true);
+  const [hiddenBalance, setHiddenBalance] = useState(false);
   const router = useRouter();
   return (
     <SafeAreaView className="px-5 pt-6 bg-[#F9F9F9] h-full">
@@ -73,7 +73,7 @@ const Home = () => {
                   color="#FFFFFF"
                 />
               ) : (
-                <Text className="text-[#FFFFFF] text-2xl font-semibold">
+                <Text className="text-[#FFFFFF] text-2xl font-bold">
                   ₦503,000
                 </Text>
               )}
@@ -89,9 +89,7 @@ const Home = () => {
         <View className="mt-10">
           <View className="flex flex-row justify-between items-center mb-4">
             <Text className="text-[#232429] font-bold text-lg">My Budget</Text>
-            <TouchableOpacity
-              onPress={() => router.push("/(others)/connected-banks")}
-            >
+            <TouchableOpacity onPress={() => router.push("/(tabs)/budgets")}>
               <View className="flex flex-row items-center gap-3">
                 <Text className="text-[#5F61F5] text-sm">Manage Budgets</Text>
                 <Feather name="arrow-right" size={14} color="#5F61F5" />
@@ -154,9 +152,7 @@ const Home = () => {
             <Text className="text-[#232429] font-bold text-lg">
               My Spendings
             </Text>
-            <TouchableOpacity
-              onPress={() => router.push("/(others)/connected-banks")}
-            >
+            <TouchableOpacity onPress={() => router.push("/(tabs)/budgets")}>
               <View className="flex flex-row items-center gap-3">
                 <Text className="text-[#5F61F5] text-sm">This Month</Text>
                 <Ionicons
