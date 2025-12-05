@@ -6,6 +6,7 @@ import { usePreventScreenCapture } from "expo-screen-capture";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "./global.css";
+// import AnimatedSplashScreen from "@/components/AnimatedSplashScreen";
 
 const queryClient = new QueryClient();
 
@@ -19,25 +20,27 @@ SplashScreen.setOptions({
 });
 
 export default function RootLayout() {
-  const [fontsLoaded, error] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     "SpaceMono-Regular": require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
   usePreventScreenCapture();
 
   useEffect(() => {
-    if (error) throw error;
+    if (fontError) throw fontError;
 
-    if (fontsLoaded) {
+    if (fontsLoaded || fontError) {
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded, error]);
+  }, [fontsLoaded, fontError]);
 
   if (!fontsLoaded) {
+    // return <AnimatedSplashScreen />;
     return null;
   }
 
-  if (!fontsLoaded && !error) {
-    return null;
+  if (!fontsLoaded && !fontError) {
+    // return <AnimatedSplashScreen />;
+    return null
   }
 
   return (
