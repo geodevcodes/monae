@@ -9,63 +9,67 @@ import Swiper from "react-native-swiper";
 export default function Welcome() {
   const swiperRef = useRef<Swiper>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-
   const currentItem = onboarding[activeIndex];
   const isLastSlide = activeIndex === onboarding.length - 1;
 
   return (
-    <SafeAreaView
-      style={{
-        backgroundColor: currentItem?.bgColor ?? "#FFFFFF",
-      }}
-      className="flex h-full items-center justify-between px-7"
-    >
-      <Swiper
-        ref={swiperRef}
-        loop={false}
-        dot={
-          <View className="w-[10px] h-[10px] rounded-full mx-1 bg-[#E2E8F0]" />
-        }
-        activeDot={
-          <View className="w-[10px] h-[10px] mx-1 bg-[#444CE7] rounded-full" />
-        }
-        onIndexChanged={(index) => setActiveIndex(index)}
-      >
-        {onboarding.map((item) => (
-          <View key={item.id} className="flex items-center justify-center p-5">
-            <Image
-              source={item.image}
-              resizeMode="contain"
-              className="w-[419px] h-[300px] mt-8"
-            />
-
-            <View className="mt-16">
-              <Text
-                style={{ color: item.color }}
-                className="text-4xl text-center font-semibold"
-              >
-                {item.title}
-              </Text>
-              <Text
-                style={{ color: item.color }}
-                className="text-center mt-4 text-lg"
-              >
-                {item.description}
-              </Text>
+    <SafeAreaView className="flex-1 bg-[#E8ECF9]">
+      <View className="flex-[0.55] items-center justify-center">
+        <Swiper
+          ref={swiperRef}
+          loop={false}
+          showsPagination={false}
+          onIndexChanged={(index) => setActiveIndex(index)}
+        >
+          {onboarding.map((item) => (
+            <View key={item.id} className="items-center justify-center pt-10">
+              <Image
+                source={item.image}
+                resizeMode="contain"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  opacity: 0.98,
+                }}
+              />
             </View>
+          ))}
+        </Swiper>
+      </View>
+      <View className="flex-[0.45] bg-white px-7 pt-10 pb-6 flex-col">
+        <View className="flex-1">
+          <View className="flex-row justify-center mb-6">
+            {onboarding.map((_, index) => (
+              <View
+                key={index}
+                className={`w-[10px] h-[10px] rounded-full mx-1 ${
+                  activeIndex === index ? "bg-[#444CE7]" : "bg-[#CBD5E1]"
+                }`}
+              />
+            ))}
           </View>
-        ))}
-      </Swiper>
-      <CustomButton
-        title={isLastSlide ? "Get Started" : "Continue"}
-        handlePress={() =>
-          isLastSlide
-            ? router.replace("/(tabs)/home")
-            : swiperRef.current?.scrollBy(1)
-        }
-        textStyles="text-[#ffffff] font-medium"
-        className="w-11/12 mt-10 mb-5 mx-auto bg-[#4E43EA]"
-      />
+
+          <Text className="text-2xl text-center font-semibold text-[#181D27]">
+            {currentItem.title}
+          </Text>
+          <Text
+            style={{ color: currentItem.color }}
+            className="text-center mt-4 font-light text-xl px-6"
+          >
+            {currentItem.description}
+          </Text>
+        </View>
+        <CustomButton
+          title={isLastSlide ? "Get Started" : "Continue"}
+          handlePress={() =>
+            isLastSlide
+              ? router.replace("/(auth)/auth-screen")
+              : swiperRef.current?.scrollBy(1)
+          }
+          textStyles="text-white font-medium"
+          className="w-full bg-[#444CE7]"
+        />
+      </View>
     </SafeAreaView>
   );
 }

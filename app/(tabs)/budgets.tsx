@@ -1,4 +1,5 @@
 import { budgetData } from "@/lib/data/budgetData";
+import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
@@ -111,7 +112,7 @@ const Budgets = () => {
                       backgroundColor: item.borderColor,
                       width: `${item.progress}%`,
                     }}
-                    className="bg-[#E26F5F] h-2 rounded-xl"
+                    className="h-2 rounded-xl"
                   />
                 </View>
                 <Text className="text-sm ml-3">{item.progress}%</Text>
@@ -123,7 +124,7 @@ const Budgets = () => {
       </Animated.ScrollView>
       <TouchableOpacity
         onPress={() => router.push("/(others)/create-budget")}
-        className="absolute bottom-40 right-6 bg-[#5F61F5] w-14 h-14 rounded-full items-center justify-center shadow-lg"
+        className="absolute bottom-40 right-6 bg-[#5F61F5] w-16 h-16 rounded-full items-center justify-center shadow-lg"
         style={{
           elevation: 8,
           shadowColor: "#000",
@@ -132,7 +133,7 @@ const Budgets = () => {
           shadowRadius: 4,
         }}
       >
-        <Text className="text-white text-3xl">+</Text>
+        <Feather name="plus" size={24} color="#FFFFFF" />
       </TouchableOpacity>
     </SafeAreaView>
   );

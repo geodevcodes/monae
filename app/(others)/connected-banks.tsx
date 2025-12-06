@@ -1,4 +1,5 @@
 import { connectedBanksData } from "@/lib/data/connectedBanksData";
+import { Feather } from "@expo/vector-icons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { useRouter } from "expo-router";
 import React from "react";
@@ -9,7 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const ConnectedBanks = () => {
   const router = useRouter();
   return (
-    <SafeAreaView className="px-5 pt-4 pb-2">
+    <SafeAreaView className="px-8 pt-6 pb-2 bg-white h-full">
       <View className="flex flex-row items-cente">
         <TouchableOpacity
           onPress={() => router.back()}
@@ -69,6 +70,19 @@ const ConnectedBanks = () => {
           </View>
         </View>
       </Animated.ScrollView>
+      <TouchableOpacity
+        onPress={() => router.push("/(others)/connect-bank")}
+        className="absolute bottom-40 right-6 bg-[#5F61F5] w-16 h-16 rounded-full items-center justify-center shadow-lg"
+        style={{
+          elevation: 8,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.2,
+          shadowRadius: 4,
+        }}
+      >
+        <Feather name="plus" size={24} color="#FFFFFF" />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };

@@ -52,6 +52,8 @@ export default function RootLayout() {
         <Stack.Screen name="(others)/budget-details/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="(others)/create-budget" options={{ headerShown: false }} />
         <Stack.Screen name="(others)/connected-banks" options={{ headerShown: false }} />
+        <Stack.Screen name="(others)/connect-bank" options={{ headerShown: false }} />
+        <Stack.Screen name="(others)/uncategorized-spending" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="index" options={{ headerShown: false }} />
       </Stack>

@@ -130,7 +130,10 @@ const Home = () => {
         </View>
 
         <View className="flex flex-col mt-4 p-3 border border-[#FFECB6] bg-[#FFFCF2] rounded-lg">
-          <TouchableOpacity className="flex flex-row items-center justify-between">
+          <TouchableOpacity
+            onPress={() => router.push("/(others)/uncategorized-spending")}
+            className="flex flex-row items-center justify-between"
+          >
             <View className="flex flex-row items-center gap-3">
               <View className="p-3 rounded-full bg-[#FEF0C7]">
                 <Ionicons name="warning-outline" size={24} color="#DC6803" />
@@ -140,9 +143,7 @@ const Home = () => {
               </Text>
             </View>
             <View className="bg-[#DC6803] rounded-full w-6 h-6 justify-center items-center">
-              <Text className="h-6 w-6 text-sm text-white justify-center items-center text-center">
-                3
-              </Text>
+              <Text className="text-sm text-white text-center">3</Text>
             </View>
           </TouchableOpacity>
         </View>

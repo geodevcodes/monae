@@ -18,7 +18,25 @@ export default function AuthLayout() {
           }}
         />
         <Stack.Screen
+          name="cta-screen"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
           name="welcome"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="auth-screen"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="verify-email"
           options={{
             headerShown: false,
           }}

@@ -61,3 +61,30 @@ export const spendingData = [
     href: "/(others)/budget-details/healthcare_5",
   },
 ];
+
+export const uncategorizedData = [
+  {
+    id: "KLMN_stores_1",
+    name: "Transfer to KLMN Stores",
+    spendAmount: "₦103,000",
+    createdAt: "Sept 12, 2025 1:20pm.",
+  },
+  {
+    id: "Madueke_Tamuno_1",
+    name: "Transfer to Madueke Tamuno",
+    spendAmount: "₦43,000",
+    createdAt: "Sept 12.",
+  },
+  {
+    id: "XYZ_LTD_1",
+    name: "Transfer to XYZ LTD",
+    spendAmount: "₦10,000",
+    createdAt: "Sept 19.",
+  },
+  {
+    id: "Adaeze_Accessories_1",
+    name: "Transfer to Adaeze Accessories",
+    spendAmount: "₦10,000",
+    createdAt: "Sept 21.",
+  },
+];
