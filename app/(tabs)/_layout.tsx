@@ -1,6 +1,6 @@
+import icons from "@/constants/icons";
 import images from "@/constants/images";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import Entypo from "@expo/vector-icons/Entypo";
+import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
@@ -19,9 +19,7 @@ const TabIcon = ({
     {Icon}
     <Text
       className={`${
-        focused
-          ? "text-[#5B5FED] font-rubik-medium"
-          : "text-[#666876] font-rubik"
+        focused ? "text-[#5B5FED] " : "text-[#666876] font-rubik"
       } text-xs w-full text-center mt-1`}
     >
       {title}
@@ -52,10 +50,11 @@ const TabsLayout = () => {
                 focused={focused}
                 title="Home"
                 Icon={
-                  <Entypo
-                    name="home"
-                    size={24}
-                    color={focused ? "#5B5FED" : "#666876"}
+                  <Image
+                    source={focused ? icons.homeBold : icons.home}
+                    resizeMode="contain"
+                    tintColor={focused ? "#5B5FED" : "#666876"}
+                    className={focused ? "size-7 mt-2" : "size-7 mt-2"}
                   />
                 }
               />
@@ -72,10 +71,11 @@ const TabsLayout = () => {
                 focused={focused}
                 title="Budgets"
                 Icon={
-                  <MaterialCommunityIcons
-                    name="calendar-check-outline"
-                    size={24}
-                    color={focused ? "#5B5FED" : "#666876"}
+                  <Image
+                    source={icons.budget}
+                    resizeMode="contain"
+                    tintColor={focused ? "#5B5FED" : "#666876"}
+                    className={focused ? "size-7 mt-2" : "size-7 mt-2"}
                   />
                 }
               />
@@ -110,10 +110,11 @@ const TabsLayout = () => {
                 focused={focused}
                 title="Analytics"
                 Icon={
-                  <Ionicons
-                    name="stats-chart-outline"
-                    size={24}
-                    color={focused ? "#5B5FED" : "#666876"}
+                  <Image
+                    source={icons.analytics}
+                    resizeMode="contain"
+                    tintColor={focused ? "#5B5FED" : "#666876"}
+                    className={focused ? "size-7 mt-2" : "size-7 mt-2"}
                   />
                 }
               />

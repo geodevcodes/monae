@@ -96,3 +96,26 @@ export const settingsData = [
     items: [...othersData],
   },
 ];
+
+export const professionalInfoData = [
+  {
+    id: "name_1",
+    title: "Name",
+    description: "Christiana Perry",
+  },
+  {
+    id: "phone_number_2",
+    title: "Phone Number",
+    description: "+2348152251158",
+  },
+  {
+    id: "email_3",
+    title: "Email",
+    description: "christianaperry@gmail.com",
+  },
+  {
+    id: "gender_4",
+    title: "Gender",
+    description: "Add your gender",
+  },
+];

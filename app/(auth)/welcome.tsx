@@ -67,7 +67,7 @@ export default function Welcome() {
               : swiperRef.current?.scrollBy(1)
           }
           textStyles="text-white font-medium"
-          className="w-full bg-[#444CE7]"
+          className="w-full bg-[#444CE7] mb-32"
         />
       </View>
     </SafeAreaView>

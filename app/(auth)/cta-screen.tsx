@@ -54,7 +54,7 @@ export default function CtaScreen() {
         title={"Get Started"}
         handlePress={() => router.push("/(auth)/welcome")}
         textStyles="text-[#ffffff] font-medium"
-        className="w-11/12 mt-10 mb-5 mx-auto bg-[#4E43EA]"
+        className="w-11/12 mt-10 mb-32 mx-auto bg-[#4E43EA]"
       />
     </SafeAreaView>
   );

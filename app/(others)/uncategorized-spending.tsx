@@ -10,25 +10,24 @@ const UncategorizedSpending = () => {
 
   return (
     <SafeAreaView className="px-8 pt-4 pb-2 bg-white h-full">
+      <View className="flex flex-row items-center mt-4 pb-4">
+        <TouchableOpacity
+          onPress={() => router.back()}
+          activeOpacity={0.7}
+          className="max-w-[50px] flex items-start justify-start border border-[#A9AEB7] rounded-lg p-1.5"
+        >
+          <View className="flex flex-row items-center justify-between gap-3">
+            <FontAwesome6 name="arrow-left-long" size={16} color="#414349" />
+          </View>
+        </TouchableOpacity>
+        <Text className="text-black font-semibold text-xl ml-20">
+          Uncategorized Spending
+        </Text>
+      </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 80 }}
       >
-        <View className="flex flex-row mt-6">
-          <TouchableOpacity
-            onPress={() => router.back()}
-            activeOpacity={0.7}
-            className="max-w-[50px] flex items-start justify-start border border-[#A9AEB7] rounded-lg p-1.5"
-          >
-            <View className="flex flex-row items-center justify-between gap-3">
-              <FontAwesome6 name="arrow-left-long" size={16} color="#414349" />
-            </View>
-          </TouchableOpacity>
-          <Text className="text-black font-semibold text-xl ml-20">
-            Uncategorized Spending
-          </Text>
-        </View>
-
         <Text className="text-lg text-[#535862] mt-6">
           Help Monae learn where these belong so your finances stay organized
         </Text>

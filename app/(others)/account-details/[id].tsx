@@ -1,15 +1,12 @@
-import images from "@/constants/images";
+import PersonalInformation from "@/components/accounts/PersonalInformation";
+import Personalisation from "@/components/accounts/Personalisation";
+import Security from "@/components/accounts/Security";
+import Subscription from "@/components/accounts/Subscription";
 import { settingsData } from "@/lib/data/accountData";
-import { FontAwesome6, SimpleLineIcons } from "@expo/vector-icons";
+import { FontAwesome6 } from "@expo/vector-icons";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import {
-  ActivityIndicator,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const AccountDetails = () => {
@@ -29,7 +26,7 @@ const AccountDetails = () => {
   }
 
   return (
-    <SafeAreaView className="px-5 pt-4 pb-2 bg-white h-full">
+    <SafeAreaView className="px-8 pt-4 pb-2 bg-white h-full">
       <View className="flex flex-row mt-6">
         <TouchableOpacity
           onPress={() => router.back()}
@@ -45,22 +42,11 @@ const AccountDetails = () => {
         </Text>
       </View>
 
-      <View className="flex-row justify-center flex mt-5">
-        <View className="flex flex-col items-center relative mt-5">
-          <Image
-            source={images.avatar}
-            className="size-40 relative rounded-full"
-          />
-          <TouchableOpacity className="absolute bottom-20 -right-1 shadow-md bg-[#FFFFFF] p-2 rounded-full">
-            <SimpleLineIcons name="pencil" size={16} color="#4E43EA" />
-          </TouchableOpacity>
-          <Text className="text-2xl text-[#00011B] mt-2">
-            Christiana Perrty
-          </Text>
-          <Text className="text-sm mt-1 text-[#535862]">
-            christianaperry@gmail.com
-          </Text>
-        </View>
+      <View>
+        {settings?.name === "Personal Information" && <PersonalInformation />}
+        {settings?.name === "Security Settings" && <Security />}
+        {settings?.name === "Personalisation" && <Personalisation />}
+        {settings?.name === "Manage Subscription" && <Subscription />}
       </View>
     </SafeAreaView>
   );

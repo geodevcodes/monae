@@ -1,4 +1,4 @@
-import { ActivityIndicator, Text, TouchableOpacity } from "react-native";
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 
 interface CustomButtonProps {
   title: string;
@@ -9,6 +9,7 @@ interface CustomButtonProps {
   isLoading?: boolean;
   IconLeft?: React.ComponentType<any>;
   IconRight?: React.ComponentType<any>;
+  withInnerBorder?: boolean;
 }
 const CustomButton = ({
   title,
@@ -19,6 +20,7 @@ const CustomButton = ({
   IconLeft,
   IconRight,
   isLoading,
+  withInnerBorder = true,
 }: CustomButtonProps) => {
   return (
     <TouchableOpacity
@@ -30,6 +32,10 @@ const CustomButton = ({
       style={style}
       disabled={isLoading}
     >
+      {withInnerBorder && (
+        <View className="absolute inset-[1px] rounded-xl border-2 border-white/20" />
+      )}
+
       {IconLeft && <IconLeft />}
       <Text className={`font-poppins-semibold text-lg ${textStyles}`}>
         {title}

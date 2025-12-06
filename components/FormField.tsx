@@ -46,9 +46,9 @@ const FormField = ({
                   {title}
                 </Text>
 
-                <View className="w-full h-16 px-4 bg-black-100 rounded-xl border border-[#E4E6E9] flex flex-row items-center">
+                <View className="w-full h-16 px-4 rounded-xl border border-[#E4E6E9] flex flex-row items-center">
                   <TextInput
-                    className="flex-1 text-[#2C3B46] font-poppins-semibold text-base"
+                    className="flex-1 text-[#2C3B46] text-base"
                     value={value}
                     onBlur={onBlur}
                     onChangeText={onChange}
