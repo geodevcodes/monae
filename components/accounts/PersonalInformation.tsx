@@ -12,7 +12,7 @@ import FormField from "../FormField";
 const PersonalInformation = () => {
   const router = useRouter();
   const { control, handleSubmit } = useForm();
-  const [showEdit, setShowEdit] = useState(true);
+  const [showEdit, setShowEdit] = useState(false);
   return (
     <View>
       {!showEdit ? (

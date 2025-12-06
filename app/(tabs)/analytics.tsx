@@ -17,6 +17,12 @@ const Analytics = () => {
   const [selectedMonth, setSelectedMonth] = useState("Sept 2025");
   const [activeTab, setActiveTab] = useState("Spendings");
   const [selectedBudget, setSelectedBudget] = useState<string | null>(null);
+  const [tooltipPos, setTooltipPos] = useState({
+    x: 0,
+    y: 0,
+    visible: false,
+    value: 0,
+  });
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
@@ -45,7 +51,7 @@ const Analytics = () => {
     labels: ["1 Sept", "2 Sept", "3 Sept", "4 Sept", "5 Sept"],
     datasets: [
       {
-        data: [100000, 150000, 120000, 180000, 201965345],
+        data: [100000, 150000, 120000, 180000, 201865345],
         strokeWidth: 2,
       },
     ],
@@ -70,7 +76,7 @@ const Analytics = () => {
     let currentAngle = 0;
 
     return (
-      <View className="items-center justify-center relative">
+      <View className="items-center justify-center relative mt-10 mb-4">
         <View className="w-52 h-52 rounded-full relative items-center justify-center">
           {budgetData.map((item, index) => {
             const angle = (item.percentage / 100) * total;
@@ -177,7 +183,7 @@ const Analytics = () => {
           </View>
 
           {/* Daily Expenses Chart */}
-          <View className="bg-white border border-gray-200 rounded-2xl p-4 mb-6">
+          <View className="bg-white rounded-2xl p-4 mt-6">
             <View className="flex flex-row items-center justify-between mb-4">
               <Text className="text-black text-base font-semibold">
                 Daily Expenses
@@ -222,13 +228,45 @@ const Analytics = () => {
               withHorizontalLabels={true}
               fromZero
               segments={4}
+              decorator={() => {
+                return tooltipPos.visible ? (
+                  <View>
+                    <View
+                      style={{
+                        position: "absolute",
+                        backgroundColor: "black",
+                        paddingHorizontal: 12,
+                        paddingVertical: 8,
+                        borderRadius: 8,
+                        left: tooltipPos.x - 60,
+                        top: tooltipPos.y - 40,
+                      }}
+                    >
+                      <Text className="text-white font-semibold text-sm">
+                        ${tooltipPos.value.toLocaleString()}
+                      </Text>
+                    </View>
+                  </View>
+                ) : null;
+              }}
+              onDataPointClick={(data) => {
+                const isSamePoint =
+                  tooltipPos.x === data.x && tooltipPos.y === data.y;
+
+                setTooltipPos({
+                  x: data.x,
+                  y: data.y,
+                  visible: !isSamePoint,
+                  value: data.value,
+                });
+              }}
             />
           </View>
 
           {/* Spendings and Budgets Section */}
-          <View className="bg-white border border-gray-200 rounded-2xl p-4 mb-6">
+          <View className="bg-white  rounded-2xl p-4 mt-10">
             {/* Tab Buttons */}
-            <View className="flex flex-row mb-6 bg-gray-100 rounded-lg p-1">
+            <View className="flex flex-row mb-6 bg-gray-100 border border-gray-200 rounded-lg p-1">
               <TouchableOpacity
                 onPress={() => setActiveTab("Spendings")}
                 activeOpacity={0.7}
@@ -247,7 +285,7 @@ const Analytics = () => {
               <TouchableOpacity
                 onPress={() => setActiveTab("Budgets")}
                 activeOpacity={0.7}
-                className={`flex-1 py-2.5 rounded-lg ${
+                className={`flex-1 py-2.5  rounded-lg ${
                   activeTab === "Budgets" ? "bg-white" : ""
                 }`}
               >
@@ -265,19 +303,19 @@ const Analytics = () => {
             {renderPieChart()}
 
             {/* Legend */}
-            <View className="flex flex-row flex-wrap justify-center gap-x-4 gap-y-2 mt-6 mb-4">
+            <View className="flex flex-row flex-wrap justify-centr gap-x-2 gap-y-3 mt-6 mb-4">
               {budgetData.map((item, index) => (
                 <TouchableOpacity
                   key={index}
                   onPress={() => setSelectedBudget(item.name)}
                   activeOpacity={0.7}
-                  className="flex flex-row items-center"
+                  className="flex flex-row items-center bg-gray-50 border border-gray-200 rounded-lg px-3 py-2"
                 >
                   <View
                     style={{ backgroundColor: item.color }}
-                    className="w-3 h-3 rounded-full mr-1.5"
+                    className="w-3 h-3 rounded-full mr-2"
                   />
-                  <Text className="text-gray-700 text-xs">
+                  <Text className="text-gray-700 text-xs font-medium">
                     {item.name}-{item.percentage}%
                   </Text>
                 </TouchableOpacity>
