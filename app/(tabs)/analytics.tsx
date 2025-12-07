@@ -59,16 +59,16 @@ const Analytics = () => {
 
   // Budget categories data
   const budgetData = [
-    { name: "Balance", percentage: 30, color: "#A855F7", amount: "₦300,000" },
+    { name: "Balance", percentage: 30, color: "#A855F7", amount: "₦200,000" },
     {
       name: "Dining & Food",
       percentage: 15,
       color: "#F97316",
-      amount: "₦300,000",
+      amount: "₦800,000",
     },
-    { name: "Travel", percentage: 25, color: "#06B6D4", amount: "₦300,000" },
-    { name: "Shopping", percentage: 20, color: "#EC4899", amount: "₦300,000" },
-    { name: "Others", percentage: 10, color: "#10B981", amount: "₦300,000" },
+    { name: "Travel", percentage: 25, color: "#06B6D4", amount: "₦600,000" },
+    { name: "Shopping", percentage: 20, color: "#EC4899", amount: "₦900,000" },
+    { name: "Others", percentage: 10, color: "#10B981", amount: "₦100,000" },
   ];
 
   const renderPieChart = () => {
