@@ -14,6 +14,10 @@
         "dark": "./assets/images/ios-icon-dark.png",
         "light": "./assets/images/ios-icon-light.png",
         "tinted": "./assets/images/ios-icon-tinted.png"
+      },
+      "bundleIdentifier": "com.geodevcode.monae",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
