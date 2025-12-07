@@ -108,13 +108,14 @@ const BudgetDetails = () => {
       <CustomButton
         title="Add Budget"
         // handlePress={handleSubmit(onSignInPress)}
+        handlePress={() => router.back()}
         style={{ backgroundColor: budget?.borderColor }}
         className="mt-24 rounded-3xl"
         textStyles="text-white font-medium"
       />
       <CustomButton
         title="Delete"
-        // handlePress={handleSubmit(onSignInPress)}
+        handlePress={() => router.back()}
         className="mt-3 rounded-3xl"
         textStyles="text-[#535862 font-medium"
       />

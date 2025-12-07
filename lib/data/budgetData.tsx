@@ -55,8 +55,8 @@ export const budgetData = [
   {
     id: "home_utilities_3",
     name: "Home & Utilities",
-    description: "You've used 45% of your budget",
-    progress: 45,
+    description: "You've used 95% of your budget",
+    progress: 95,
     icon: (
       <MaterialIcons
         name="bar-chart"
@@ -66,8 +66,8 @@ export const budgetData = [
       />
     ),
     href: "/(others)/budget-details/home_utilities_3",
-    bg: "#EDF2FF",
-    borderColor: "#5F61F5",
+    bg: "#FFEAF0",
+    borderColor: "#F56C8A",
     amountBudgeted: "₦150,000.00",
     expenses: "₦67,500",
     createdAt: "2025-09-01",
