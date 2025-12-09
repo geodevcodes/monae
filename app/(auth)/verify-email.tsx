@@ -12,6 +12,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
 
 const VerifyEmail = () => {
   const { mutate: verifyEmail, isPending } = useVerifyEmail();
@@ -51,7 +52,11 @@ const VerifyEmail = () => {
   const verifyEmailHandler = () => {
     const code = otp.join("");
     if (code.length < 5) {
-      alert("Please enter the 5-digit code");
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Please enter the 5-digit code",
+      });
       return;
     }
     const payload = { code };

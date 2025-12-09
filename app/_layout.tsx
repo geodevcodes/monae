@@ -6,6 +6,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "./global.css";
+import Toast from "react-native-toast-message";
 // import AnimatedSplashScreen from "@/components/AnimatedSplashScreen";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -56,6 +57,7 @@ export default function RootLayout() {
         <Stack.Screen name="index" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" animated backgroundColor="#ff6600" />
+      <Toast />
     </TanstackProvider>
   );
 }

@@ -6,8 +6,9 @@ import { useSignUp } from "@/services/auth/authService";
 import { Link, useRouter } from "expo-router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Alert, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
 
 const AuthScreen = () => {
   const router = useRouter();
@@ -19,7 +20,11 @@ const AuthScreen = () => {
     const { email, password, confirmPassword } = getValues();
 
     if (password !== confirmPassword) {
-      Alert.alert("Error", "Passwords do not match");
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Passwords do not match",
+      });
       return;
     }
 
@@ -31,7 +36,6 @@ const AuthScreen = () => {
       { payload },
       {
         onSuccess: () => {
-          Alert.alert("Registered Successful");
           router.push("/(auth)/verify-email");
         },
       }

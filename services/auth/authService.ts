@@ -1,7 +1,7 @@
 import { ForgotPasswordType, LoginType } from "@/types/authType";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { toast } from "sonner";
+import Toast from "react-native-toast-message";
 
 const baseUrl = process.env.EXPO_PUBLIC_API_BASE_URL!;
 
@@ -21,13 +21,25 @@ export const useLogin = () => {
       }
     },
     onSuccess: () => {
-      toast.success("Login successfully! 🎉");
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Login successfully! 🎉",
+      });
     },
     onError: (error: any) => {
       if (error.response?.status === 500) {
-        toast.error("Internal Server Error");
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Internal Server Error",
+        });
       } else {
-        toast.error(error.response?.data?.message);
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: error.response?.data?.message,
+        });
       }
     },
   });
@@ -49,13 +61,25 @@ export const useSignUp = () => {
       }
     },
     onSuccess: () => {
-      toast.success("Register successfully! 🎉");
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Register successfully! 🎉",
+      });
     },
     onError: (error: any) => {
       if (error.response?.status === 500) {
-        toast.error("Internal Server Error");
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Internal Server Error",
+        });
       } else {
-        toast.error(error.response?.data?.message);
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: error.response?.data?.message,
+        });
       }
     },
   });
@@ -81,13 +105,25 @@ export const useVerifyEmail = () => {
       }
     },
     onSuccess: () => {
-      toast.success("Email verified successfully! 🎉");
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Email verified successfully! 🎉",
+      });
     },
     onError: (error: any) => {
       if (error.response?.status === 500) {
-        toast.error("Internal Server Error");
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Internal Server Error",
+        });
       } else {
-        toast.error(error.response?.data?.message);
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: error.response?.data?.message,
+        });
       }
     },
   });
@@ -113,13 +149,25 @@ export const useResendOPT = () => {
       }
     },
     onSuccess: () => {
-      toast.success("OTP resent successfully! 🎉");
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "OTP resent successfully! 🎉",
+      });
     },
     onError: (error: any) => {
       if (error.response?.status === 500) {
-        toast.error("Internal Server Error");
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Internal Server Error",
+        });
       } else {
-        toast.error(error.response?.data?.message);
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: error.response?.data?.message,
+        });
       }
     },
   });
@@ -145,13 +193,25 @@ export const useResetPassword = () => {
       }
     },
     onSuccess: () => {
-      toast.success("Reset Password successfully! 🎉");
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Reset Password successfully! 🎉",
+      });
     },
     onError: (error: any) => {
       if (error.response?.status === 500) {
-        toast.error("Internal Server Error");
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Internal Server Error",
+        });
       } else {
-        toast.error(error.response?.data?.message);
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: error.response?.data?.message,
+        });
       }
     },
   });
@@ -172,13 +232,25 @@ export const useForgotPassword = () => {
       }
     },
     onSuccess: () => {
-      toast.success("Reset Password Email Sent! 🎉");
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Reset Password Email Sent! 🎉",
+      });
     },
     onError: (error: any) => {
       if (error.response?.status === 500) {
-        toast.error("Internal Server Error");
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Internal Server Error",
+        });
       } else {
-        toast.error(error.response?.data?.message);
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: error.response?.data?.message,
+        });
       }
     },
   });

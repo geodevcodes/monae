@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { getItemAsync } from "expo-secure-store";
-import { toast } from "sonner";
+import Toast from "react-native-toast-message";
 
 const baseUrl = process.env.EXPO_PUBLIC_API_BASE_URL!;
 
@@ -28,14 +28,26 @@ export const useCreateBudget = () => {
       }
     },
     onSuccess: () => {
-      toast.success("Budget created successfully! 🎉");
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Budget created successfully! 🎉",
+      });
       queryClient.invalidateQueries({ queryKey: ["budget-list"] });
     },
     onError: (error: any) => {
       if (error.response?.status === 500) {
-        toast.error("Internal Server Error");
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Internal Server Error",
+        });
       } else {
-        toast.error(error.response?.data?.message);
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: error.response?.data?.message,
+        });
       }
     },
   });
@@ -70,14 +82,26 @@ export const useUpdateBudget = () => {
       }
     },
     onSuccess: () => {
-      toast.success("Budget updated successfully! 🎉");
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Budget updated successfully! 🎉",
+      });
       queryClient.invalidateQueries({ queryKey: ["budget-list"] });
     },
     onError: (error: any) => {
       if (error.response?.status === 500) {
-        toast.error("Internal Server Error");
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Internal Server Error",
+        });
       } else {
-        toast.error(error.response?.data?.message);
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: error.response?.data?.message,
+        });
       }
     },
   });
@@ -146,14 +170,26 @@ export const useDeleteBudget = () => {
       }
     },
     onSuccess: () => {
-      toast.success("Budget deleted successfully! 🎉");
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Budget deleted successfully! 🎉",
+      });
       queryClient.invalidateQueries({ queryKey: ["budget-list"] });
     },
     onError: (error: any) => {
       if (error.response?.status === 500) {
-        toast.error("Internal Server Error");
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Internal Server Error",
+        });
       } else {
-        toast.error(error.response?.data?.message);
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: error.response?.data?.message,
+        });
       }
     },
   });

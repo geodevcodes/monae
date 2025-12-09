@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { toast } from "sonner";
+import Toast from "react-native-toast-message";
 
 const baseUrl = process.env.EXPO_PUBLIC_API_BASE_URL!;
 
@@ -24,13 +24,25 @@ export const useChangePassword = () => {
       }
     },
     onSuccess: () => {
-      toast.success("Password updated successfully! 🎉");
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Password updated successfully! 🎉",
+      });
     },
     onError: (error: any) => {
       if (error.response?.status === 500) {
-        toast.error("Internal Server Error");
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Internal Server Error",
+        });
       } else {
-        toast.error(error.response?.data?.message);
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: error.response?.data?.message,
+        });
       }
     },
   });
