@@ -1,7 +1,9 @@
 import CustomButton from "@/components/CustomButton";
+import { useVerifyEmail } from "@/services/auth/authService";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import {
   ScrollView,
   Text,
@@ -12,23 +14,55 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const VerifyEmail = () => {
+  const { mutate: verifyEmail, isPending } = useVerifyEmail();
   const [otp, setOtp] = useState(["", "", "", "", ""]);
   const inputRefs = useRef<Array<TextInput | null>>([]);
   const router = useRouter();
 
-  const handleChange = (value: any, index: any) => {
-    if (/^\d$/.test(value)) {
+  const { handleSubmit } = useForm();
+
+  const handleChange = (value: string, index: number) => {
+    if (/^\d+$/.test(value)) {
       const updated = [...otp];
-      updated[index] = value;
-      setOtp(updated);
-      if (index < 4) {
-        inputRefs.current[index + 1]?.focus();
+
+      // If multiple digits are pasted
+      if (value.length > 1) {
+        const values = value.split("").slice(0, 5);
+        values.forEach((val, idx) => {
+          if (index + idx < 5) updated[index + idx] = val;
+        });
+        setOtp(updated);
+        // Focus the last filled input
+        const lastIndex = Math.min(index + values.length - 1, 4);
+        inputRefs.current[lastIndex]?.focus();
+      } else {
+        // Single digit
+        updated[index] = value;
+        setOtp(updated);
+        if (index < 4) inputRefs.current[index + 1]?.focus();
       }
     } else if (value === "") {
       const updated = [...otp];
       updated[index] = "";
       setOtp(updated);
     }
+  };
+
+  const verifyEmailHandler = () => {
+    const code = otp.join("");
+    if (code.length < 5) {
+      alert("Please enter the 5-digit code");
+      return;
+    }
+    const payload = { code };
+    verifyEmail(
+      { payload },
+      {
+        onSuccess: () => {
+          router.push("/(tabs)/home");
+        },
+      }
+    );
   };
 
   return (
@@ -65,7 +99,7 @@ const VerifyEmail = () => {
                 value={digit}
                 onChangeText={(text) => handleChange(text, index)}
                 keyboardType="number-pad"
-                maxLength={1}
+                maxLength={5}
                 placeholder="-"
                 placeholderTextColor="#A9AEB7"
                 className="w-14 h-14 border border-[#D0D5DD] rounded-xl text-center text-2xl text-[#1D2939] font-semibold"
@@ -74,8 +108,8 @@ const VerifyEmail = () => {
           </View>
 
           <CustomButton
-            title="Verify"
-            handlePress={() => router.push("/(tabs)/home")}
+            title={isPending ? "Verifying..." : "Verify"}
+            handlePress={handleSubmit(verifyEmailHandler)}
             className="mt-16 rounded-3xl bg-[#444CE7]"
             textStyles="text-white font-medium"
           />

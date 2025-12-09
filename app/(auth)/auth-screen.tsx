@@ -2,6 +2,7 @@ import CustomButton from "@/components/CustomButton";
 import FormField from "@/components/FormField";
 import OAuth from "@/components/OAuth";
 import { EMAIL_REGEX } from "@/lib/lib";
+import { useSignUp } from "@/services/auth/authService";
 import { Link, useRouter } from "expo-router";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -10,12 +11,31 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const AuthScreen = () => {
   const router = useRouter();
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, getValues } = useForm();
+  const { mutate: createUser, isPending } = useSignUp();
 
-  // Handle the submission of the sign-in form
-  const onSignInPress = async () => {
-    Alert.alert("Login Successful");
-    router.push("/(tabs)/home");
+  // Register user Handler
+  const onSignUpPress = async () => {
+    const { email, password, confirmPassword } = getValues();
+
+    if (password !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match");
+      return;
+    }
+
+    const payload = {
+      email,
+      password,
+    };
+    createUser(
+      { payload },
+      {
+        onSuccess: () => {
+          Alert.alert("Registered Successful");
+          router.push("/(auth)/verify-email");
+        },
+      }
+    );
   };
 
   return (
@@ -81,12 +101,12 @@ const AuthScreen = () => {
           </Text>
 
           <CustomButton
-            title="Sign In"
-            handlePress={() => router.push("/(auth)/verify-email")}
-            // handlePress={handleSubmit(onSignInPress)}
+            title={isPending ? "Creating..." : "Sign Up"}
+            handlePress={handleSubmit(onSignUpPress)}
             className="mt-7 bg-[#444CE7] rounded-3xl"
             textStyles="text-white"
           />
+
           <OAuth />
 
           <View className="flex justify-center pt-5 flex-row gap-2">

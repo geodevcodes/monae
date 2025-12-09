@@ -1,14 +1,12 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import TanstackProvider from "@/providers/TanstackProvider";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { usePreventScreenCapture } from "expo-screen-capture";
+// import { usePreventScreenCapture } from "expo-screen-capture";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "./global.css";
 // import AnimatedSplashScreen from "@/components/AnimatedSplashScreen";
-
-const queryClient = new QueryClient();
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -23,7 +21,7 @@ export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
     "SpaceMono-Regular": require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
-  usePreventScreenCapture();
+  // usePreventScreenCapture();
 
   useEffect(() => {
     if (fontError) throw fontError;
@@ -44,7 +42,7 @@ export default function RootLayout() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <TanstackProvider>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(others)/account-details" options={{ headerShown: false }} />
@@ -58,6 +56,6 @@ export default function RootLayout() {
         <Stack.Screen name="index" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" animated backgroundColor="#ff6600" />
-    </QueryClientProvider>
+    </TanstackProvider>
   );
 }
