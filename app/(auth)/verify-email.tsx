@@ -64,7 +64,7 @@ const VerifyEmail = () => {
       { payload },
       {
         onSuccess: () => {
-          router.push("/(tabs)/home");
+          router.push("/(auth)/login-screen");
         },
       }
     );
@@ -75,7 +75,7 @@ const VerifyEmail = () => {
       <ScrollView>
         <View className="w-full px-8">
           <TouchableOpacity
-            onPress={() => router.push("/(auth)/auth-screen")}
+            onPress={() => router.push("/(auth)/signup-screen")}
             activeOpacity={0.7}
             className="max-w-[30px] border border-[#A9AEB7] rounded-lg p-1.5 mt-16"
           >

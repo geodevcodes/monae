@@ -10,7 +10,7 @@ import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 
-const AuthScreen = () => {
+const SignUpScreen = () => {
   const router = useRouter();
   const { control, handleSubmit, getValues } = useForm();
   const { mutate: createUser, isPending } = useSignUp();
@@ -111,14 +111,14 @@ const AuthScreen = () => {
             textStyles="text-white"
           />
 
-          <OAuth />
+          <OAuth title="Sign In with Google" />
 
           <View className="flex justify-center pt-5 flex-row gap-2">
             <Text className="text-lg text-[#414242] font-poppins-regular">
               Already have an account?
             </Text>
             <Link
-              href="/(auth)/auth-screen"
+              href="/(auth)/login-screen"
               className="text-lg font-semibold text-[#4E43EA]"
             >
               Log in
@@ -130,4 +130,4 @@ const AuthScreen = () => {
   );
 };
 
-export default AuthScreen;
+export default SignUpScreen;

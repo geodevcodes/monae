@@ -2,10 +2,14 @@
 import CustomButton from "@/components/CustomButton";
 import icons from "@/constants/icons";
 import { router } from "expo-router";
-import { Alert, Image, Text, View } from "react-native";
+import { Image, View } from "react-native";
 // import { googleOAuth } from "@/lib/auth";
 
-const OAuth = () => {
+interface OAuthProps {
+  title: string;
+}
+
+const OAuth = ({ title }: OAuthProps) => {
   //   const { startOAuthFlow } = useOAuth({ strategy: "oauth_google" });
 
   const handleGoogleSignIn = async () => {
@@ -24,7 +28,7 @@ const OAuth = () => {
   return (
     <View>
       <CustomButton
-        title="Sign In with Google"
+        title={title}
         className="mt-5 w-full flex items-center justify-center shadow-none rounded-3xl border-[1px] border-[#94969B]"
         textStyles="text-[#414651] font-semibold"
         IconLeft={() => (

@@ -12,12 +12,6 @@ export default function AuthLayout() {
           }}
         />
         <Stack.Screen
-          name="forgot-password"
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
           name="cta-screen"
           options={{
             headerShown: false,
@@ -30,13 +24,25 @@ export default function AuthLayout() {
           }}
         />
         <Stack.Screen
-          name="auth-screen"
+          name="signup-screen"
           options={{
             headerShown: false,
           }}
         />
         <Stack.Screen
           name="verify-email"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="login-screen"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="forgot-password"
           options={{
             headerShown: false,
           }}

@@ -1,6 +1,7 @@
 import { ForgotPasswordType, LoginType } from "@/types/authType";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import * as SecureStore from "expo-secure-store";
 import Toast from "react-native-toast-message";
 
 const baseUrl = process.env.EXPO_PUBLIC_API_BASE_URL!;
@@ -20,7 +21,12 @@ export const useLogin = () => {
         throw error;
       }
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
+      if (response.token) {
+        SecureStore.setItemAsync("token", response.token).catch((error) => {
+          console.error("Failed to save token:", error);
+        });
+      }
       Toast.show({
         type: "success",
         text1: "Success",

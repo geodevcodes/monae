@@ -63,7 +63,7 @@ export default function Welcome() {
           title={isLastSlide ? "Get Started" : "Continue"}
           handlePress={() =>
             isLastSlide
-              ? router.replace("/(auth)/auth-screen")
+              ? router.replace("/(auth)/signup-screen")
               : swiperRef.current?.scrollBy(1)
           }
           textStyles="text-white font-medium"

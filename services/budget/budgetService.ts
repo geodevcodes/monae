@@ -8,10 +8,11 @@ const baseUrl = process.env.EXPO_PUBLIC_API_BASE_URL!;
 // CREATE BUDGET REQUEST
 export const useCreateBudget = () => {
   const queryClient = useQueryClient();
-  const token = getItemAsync("token");
+
   return useMutation({
     mutationFn: async ({ payload }: { payload: any }) => {
       try {
+        const token = await getItemAsync("token");
         const response = await axios.post(
           `${baseUrl}/budgets/create-budget`,
           payload,
@@ -46,7 +47,7 @@ export const useCreateBudget = () => {
         Toast.show({
           type: "error",
           text1: "Error",
-          text2: error.response?.data?.message,
+          text2: error.response.data.message,
         });
       }
     },
@@ -56,7 +57,6 @@ export const useCreateBudget = () => {
 // UPDATE BUDGET REQUEST
 export const useUpdateBudget = () => {
   const queryClient = useQueryClient();
-  const token = getItemAsync("token");
   return useMutation({
     mutationFn: async ({
       payload,
@@ -66,6 +66,7 @@ export const useUpdateBudget = () => {
       budgetId: string;
     }) => {
       try {
+        const token = await getItemAsync("token");
         const response = await axios.put(
           `${baseUrl}/budgets/${budgetId}`,
           payload,
@@ -131,11 +132,11 @@ export const useGetBudget = (budgetId: string) => {
 
 // GET ALL BUDGET
 export const useGetBudgets = (skip?: number, search = "") => {
-  const token = getItemAsync("token");
   return useQuery({
     queryKey: ["budget-list", skip, search],
     queryFn: async () => {
       try {
+        const token = await getItemAsync("token");
         const params = new URLSearchParams();
 
         if (skip) params.append("skip", String(skip));
@@ -154,10 +155,10 @@ export const useGetBudgets = (skip?: number, search = "") => {
 // DELETE BUDGET REQUEST
 export const useDeleteBudget = () => {
   const queryClient = useQueryClient();
-  const token = getItemAsync("token");
   return useMutation({
     mutationFn: async (budgetId: string) => {
       try {
+        const token = await getItemAsync("token");
         const response = await axios.delete(`${baseUrl}/budgets/${budgetId}`, {
           headers: {
             "Content-Type": "application/json",
