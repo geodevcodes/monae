@@ -1,3 +1,4 @@
+import HomeShimmer from "@/components/shimmer/HomeShimmer";
 import images from "@/constants/images";
 import { spendingData } from "@/lib/data/spendingData";
 import { getProgressStyles } from "@/lib/lib";
@@ -103,39 +104,52 @@ const Home = () => {
               </View>
             </TouchableOpacity>
           </View>
+
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {budgetData.map((item, index) => (
-              <TouchableOpacity
-                key={index}
-                onPress={() =>
-                  router.push(`/(others)/budget-details/${item._id}`)
-                }
-                style={{
-                  backgroundColor: getProgressStyles(item.budgetProgress).bg,
-                }}
-                className="mr-3 px-7 py-3.5 rounded-lg gap-3"
-              >
-                <Text className="text-[#535862] font-medium text-sm">
-                  {item.budgetName}
-                </Text>
-                <View className="flex flex-row justify-between">
-                  <View className="bg-[#F7FAFE] justify-center h-4 rounded-xl w-64">
-                    <View
-                      style={{
-                        backgroundColor: getProgressStyles(item.budgetProgress)
-                          .borderColor,
-                        width: `${item.budgetProgress}%`,
-                      }}
-                      className="bg-[#E26F5F] h-2 rounded-xl"
-                    />
-                  </View>
-                  <Text className="text-sm ml-3">{item.budgetProgress}%</Text>
-                </View>
-                <Text className="text-[#535862] text-sm">
-                  You've used {item.budgetProgress}% of your budget
-                </Text>
-              </TouchableOpacity>
-            ))}
+            {isLoading ? (
+              <HomeShimmer />
+            ) : (
+              <>
+                {budgetData.map((item, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() =>
+                      router.push(`/(others)/budget-details/${item._id}`)
+                    }
+                    style={{
+                      backgroundColor: getProgressStyles(item.budgetProgress)
+                        .bg,
+                    }}
+                    className="mr-3 px-7 py-3.5 rounded-lg gap-3"
+                  >
+                    <Text className="text-[#535862] font-medium text-sm">
+                      {item.budgetName}
+                    </Text>
+
+                    <View className="flex flex-row justify-between">
+                      <View className="bg-[#F7FAFE] justify-center h-4 rounded-xl w-64">
+                        <View
+                          style={{
+                            backgroundColor: getProgressStyles(
+                              item.budgetProgress
+                            ).borderColor,
+                            width: `${item.budgetProgress}%`,
+                          }}
+                          className="h-2 rounded-xl"
+                        />
+                      </View>
+                      <Text className="text-sm ml-3">
+                        {item.budgetProgress}%
+                      </Text>
+                    </View>
+
+                    <Text className="text-[#535862] text-sm">
+                      You've used {item.budgetProgress}% of your budget
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </>
+            )}
           </ScrollView>
         </View>
 

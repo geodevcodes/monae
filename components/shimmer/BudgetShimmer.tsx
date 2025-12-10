@@ -2,7 +2,7 @@ import { FlatList, StyleSheet, View } from "react-native";
 import { Shimmer, ShimmerProvider } from "react-native-fast-shimmer";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function BudgetsShimmer() {
+export default function BudgetShimmer() {
   return (
     <ShimmerProvider duration={1000}>
       <SafeAreaView style={styles.container}>

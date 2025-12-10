@@ -1,4 +1,6 @@
+import EmptyState from "@/components/EmptyState";
 import BudgetShimmer from "@/components/shimmer/BudgetShimmer";
+import images from "@/constants/images";
 import { getProgressStyles } from "@/lib/lib";
 import { useGetBudgetsInfinite } from "@/services/budget/budgetService";
 import { Feather } from "@expo/vector-icons";
@@ -80,7 +82,8 @@ const Budgets = () => {
               Total Budgets
             </Text>
             <Text className="text-[#535862] font-medium text-sm">
-              ₦{data?.pages[0]?.meta?.totalBudgetAmount?.toLocaleString() ?? 0}
+              ₦
+              {data?.pages[0]?.meta?.totalBudgetAmount?.toLocaleString() ?? 0.0}
             </Text>
           </View>
           <View className="flex flex-row justify-between mt-2">
@@ -111,7 +114,7 @@ const Budgets = () => {
             <Text className="text-[#535862] font-medium text-sm">
               ₦
               {data?.pages[0]?.meta?.overallRemainingBudget?.toLocaleString() ??
-                0}
+                0.0}
             </Text>
           </View>
         </TouchableOpacity>
@@ -123,6 +126,17 @@ const Budgets = () => {
             if (hasNextPage && !isFetchingNextPage) fetchNextPage();
           }}
           onEndReachedThreshold={0.3}
+          ListEmptyComponent={() =>
+            isLoading ? (
+              <ActivityIndicator
+                size="small"
+                color="#5F61F5"
+                className="mt-40"
+              />
+            ) : (
+              <EmptyState imageUrl={images.trash} title="No budget yet" />
+            )
+          }
           ListFooterComponent={
             isFetchingNextPage ? (
               <ActivityIndicator size="small" color="#5F61F5" />
