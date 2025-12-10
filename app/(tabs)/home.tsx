@@ -1,6 +1,7 @@
 import images from "@/constants/images";
-import { budgetData } from "@/lib/data/budgetData";
 import { spendingData } from "@/lib/data/spendingData";
+import { getProgressStyles } from "@/lib/lib";
+import { useGetBudgetsInfinite } from "@/services/budget/budgetService";
 import { EvilIcons, Feather } from "@expo/vector-icons";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -21,6 +22,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const Home = () => {
   const [hiddenBalance, setHiddenBalance] = useState(false);
   const router = useRouter();
+
+  const { data, isLoading } = useGetBudgetsInfinite();
+
+  // Flatten infinite pages
+  const budgetData = data?.pages.flatMap((page) => page.data) ?? [];
+
   return (
     <SafeAreaView className="px-5 pt-6 bg-[#F9F9F9] h-full">
       <View className="flex flex-row items-center justify-between pb-4">
@@ -100,29 +107,32 @@ const Home = () => {
             {budgetData.map((item, index) => (
               <TouchableOpacity
                 key={index}
-                onPress={() => router.push(item.href as any)}
+                onPress={() =>
+                  router.push(`/(others)/budget-details/${item._id}`)
+                }
                 style={{
-                  backgroundColor: item.bg,
+                  backgroundColor: getProgressStyles(item.budgetProgress).bg,
                 }}
                 className="mr-3 px-7 py-3.5 rounded-lg gap-3"
               >
                 <Text className="text-[#535862] font-medium text-sm">
-                  {item.name}
+                  {item.budgetName}
                 </Text>
                 <View className="flex flex-row justify-between">
                   <View className="bg-[#F7FAFE] justify-center h-4 rounded-xl w-64">
                     <View
                       style={{
-                        backgroundColor: item.borderColor,
-                        width: `${item.progress}%`,
+                        backgroundColor: getProgressStyles(item.budgetProgress)
+                          .borderColor,
+                        width: `${item.budgetProgress}%`,
                       }}
                       className="bg-[#E26F5F] h-2 rounded-xl"
                     />
                   </View>
-                  <Text className="text-sm ml-3">{item.progress}%</Text>
+                  <Text className="text-sm ml-3">{item.budgetProgress}%</Text>
                 </View>
                 <Text className="text-[#535862] text-sm">
-                  {item.description}
+                  You've used {item.budgetProgress}% of your budget
                 </Text>
               </TouchableOpacity>
             ))}
@@ -174,7 +184,6 @@ const Home = () => {
               {spendingData.map((item, index) => (
                 <TouchableOpacity
                   key={index}
-                  onPress={() => router.push(item.href as any)}
                   className="flex flex-row items-center justify-between py-3"
                 >
                   <View className="flex flex-row items-center gap-3">

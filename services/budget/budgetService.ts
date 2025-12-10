@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import axios from "axios";
 import { getItemAsync } from "expo-secure-store";
 import Toast from "react-native-toast-message";
@@ -110,18 +115,18 @@ export const useUpdateBudget = () => {
 
 // GET BUDGET BY ID REQUEST
 export const useGetBudget = (budgetId: string) => {
-  const token = getItemAsync("token");
   return useQuery({
     queryKey: ["budget", budgetId],
     queryFn: async () => {
       try {
+        const token = await getItemAsync("token");
         const response = await axios.get(`${baseUrl}/budgets/${budgetId}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         });
-        return response.data;
+        return response.data.data;
       } catch (error: any) {
         throw error;
       }
@@ -131,24 +136,42 @@ export const useGetBudget = (budgetId: string) => {
 };
 
 // GET ALL BUDGET
-export const useGetBudgets = (skip?: number, search = "") => {
-  return useQuery({
-    queryKey: ["budget-list", skip, search],
-    queryFn: async () => {
+export const useGetBudgetsInfinite = () => {
+  return useInfiniteQuery({
+    queryKey: ["budget-list"],
+    queryFn: async ({ pageParam = 1 }) => {
       try {
         const token = await getItemAsync("token");
-        const params = new URLSearchParams();
 
-        if (skip) params.append("skip", String(skip));
-        if (search.trim()) params.append("search", search);
+        const response = await axios.get(`${baseUrl}/budgets`, {
+          params: {
+            pageNumber: pageParam,
+            limit: 10, // adjust if needed
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-        const queryString = params.toString() ? `?${params.toString()}` : "";
-        const response = await axios.get(`${baseUrl}/budgets${queryString}`);
-        return response.data.data;
+        return response.data;
       } catch (error: any) {
+        Toast.show({
+          type: "error",
+          text1: "Failed to load budgets",
+          text2: error?.response?.data?.message || "Please try again.",
+        });
+
         throw error;
       }
     },
+    initialPageParam: 1,
+
+    // determine the next page
+    getNextPageParam: (lastPage) => {
+      if (!lastPage.meta.hasNextPage) return undefined;
+      return lastPage.meta.pageNumber + 1;
+    },
+    staleTime: 1000 * 60 * 2,
   });
 };
 

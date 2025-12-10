@@ -1,8 +1,11 @@
-import { budgetData } from "@/lib/data/budgetData";
+import BudgetShimmer from "@/components/shimmer/BudgetShimmer";
+import { getProgressStyles } from "@/lib/lib";
+import { useGetBudgetsInfinite } from "@/services/budget/budgetService";
 import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
+  ActivityIndicator,
   Dimensions,
   FlatList,
   Text,
@@ -21,6 +24,9 @@ const Budgets = () => {
   const router = useRouter();
   const { width } = Dimensions.get("window");
   const scrollY = useSharedValue(0);
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
+    useGetBudgetsInfinite();
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
@@ -44,6 +50,17 @@ const Budgets = () => {
     };
   });
 
+  // Flatten infinite pages
+  const budgetData = data?.pages.flatMap((page) => page.data) ?? [];
+
+  if (isLoading) {
+    return (
+      <SafeAreaView className="pt-6 pb-8 bg-white h-full">
+        <BudgetShimmer />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView className="px-5 pt-6 pb-8 bg-white h-full">
       <View className="flex flex-row items-center justify-between mb-6 h-12">
@@ -63,61 +80,86 @@ const Budgets = () => {
               Total Budgets
             </Text>
             <Text className="text-[#535862] font-medium text-sm">
-              ₦300,000.00
+              ₦{data?.pages[0]?.meta?.totalBudgetAmount?.toLocaleString() ?? 0}
             </Text>
           </View>
-          <View className="flex flex-row justify-between">
+          <View className="flex flex-row justify-between mt-2">
             <View className="bg-[#F7FAFE] justify-center h-4 rounded-xl w-80">
               <View
                 style={{
-                  backgroundColor: "#5F61F5",
-                  width: `${2}%`,
+                  backgroundColor: getProgressStyles(
+                    data?.pages[0]?.meta?.overallProgress ?? 0
+                  ).borderColor,
+                  width: `${data?.pages[0]?.meta?.overallProgress ?? 0}%`,
                 }}
-                className="bg-[#E26F5F] h-2 rounded-xl"
+                className="h-2 rounded-xl"
               />
             </View>
-            <Text className="text-sm ml-3">{2}%</Text>
+            <Text className="text-sm ml-3">
+              {data?.pages[0]?.meta?.overallProgress ?? 0}%
+            </Text>
           </View>
-          <Text className="text-[#535862] text-sm">
-            You’ve used 2% of your total budget
+          <Text className="text-[#535862] text-sm mt-1">
+            You’ve used {data?.pages[0]?.meta?.overallProgress ?? 0}% of your
+            total budget
           </Text>
-          <View className="flex flex-row justify-between">
+
+          <View className="flex flex-row justify-between mt-1">
             <Text className="text-[#535862] font-medium text-sm">
               Remaining
             </Text>
-            <Text className="text-[#535862] font-medium text-sm">₦0.00</Text>
+            <Text className="text-[#535862] font-medium text-sm">
+              ₦
+              {data?.pages[0]?.meta?.overallRemainingBudget?.toLocaleString() ??
+                0}
+            </Text>
           </View>
         </TouchableOpacity>
         <FlatList
           data={budgetData}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item._id}
           scrollEnabled={false}
+          onEndReached={() => {
+            if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+          }}
+          onEndReachedThreshold={0.3}
+          ListFooterComponent={
+            isFetchingNextPage ? (
+              <ActivityIndicator size="small" color="#5F61F5" />
+            ) : null
+          }
           renderItem={({ item }) => (
             <TouchableOpacity
-              onPress={() => router.push(`/(others)/budget-details/${item.id}`)}
+              onPress={() =>
+                router.push(`/(others)/budget-details/${item._id}`)
+              }
               className="px-7 py-3.5 rounded-lg gap-3 mt-4 border-b border-[#F5F6F6]"
             >
               <View className="flex flex-row justify-between">
                 <Text className="text-[#535862] font-medium text-sm">
-                  {item.name}
+                  {item.budgetName}
                 </Text>
                 <Text className="text-[#535862] font-medium text-sm">
-                  ₦300,000.00
+                  ₦{item.budgetAmount.toLocaleString()}
                 </Text>
               </View>
-              <View className="flex flex-row justify-between">
+
+              <View className="flex flex-row justify-between mt-2">
                 <View className="bg-[#F7FAFE] justify-center h-4 rounded-xl w-80">
                   <View
                     style={{
-                      backgroundColor: item.borderColor,
-                      width: `${item.progress}%`,
+                      backgroundColor: getProgressStyles(item.budgetProgress)
+                        .borderColor,
+                      width: `${item.budgetProgress}%`,
                     }}
                     className="h-2 rounded-xl"
                   />
                 </View>
-                <Text className="text-sm ml-3">{item.progress}%</Text>
+                <Text className="text-sm ml-3">{item.budgetProgress}%</Text>
               </View>
-              <Text className="text-[#535862] text-sm">{item.description}</Text>
+              <Text className="text-[#535862] text-sm mt-1">
+                You've used {item.budgetProgress}% of your budget
+              </Text>
             </TouchableOpacity>
           )}
         />
