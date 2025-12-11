@@ -11,7 +11,7 @@ const ConnectedBanks = () => {
   const router = useRouter();
   return (
     <SafeAreaView className="px-8 pt-6 pb-2 bg-white h-full">
-      <View className="flex flex-row items-cente">
+      <View className="flex flex-row items-center mt-4 pb-4">
         <TouchableOpacity
           onPress={() => router.back()}
           activeOpacity={0.7}

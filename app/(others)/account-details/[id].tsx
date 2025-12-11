@@ -27,7 +27,7 @@ const AccountDetails = () => {
 
   return (
     <SafeAreaView className="px-8 pt-4 pb-2 bg-white h-full">
-      <View className="flex flex-row mt-6">
+      <View className="flex flex-row items-center mt-4 pb-4">
         <TouchableOpacity
           onPress={() => router.back()}
           activeOpacity={0.7}
