@@ -1,38 +1,32 @@
 import { ForgotPasswordType, LoginType } from "@/types/authType";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import Toast from "react-native-toast-message";
-
-const baseUrl = process.env.EXPO_PUBLIC_API_BASE_URL!;
+import api from "../apiClient";
 
 // LOGIN  REQUEST
 export const useLogin = () => {
   return useMutation({
     mutationFn: async ({ payload }: { payload: LoginType }) => {
-      try {
-        const response = await axios.post(`${baseUrl}/auth/login`, payload, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        return response.data;
-      } catch (error) {
-        throw error;
-      }
+      const response = await api.post(`/auth/login`, payload);
+      return response.data;
     },
-    onSuccess: (response) => {
-      if (response.token) {
-        SecureStore.setItemAsync("token", response.token).catch((error) => {
-          console.error("Failed to save token:", error);
-        });
+    onSuccess: async (response) => {
+      const { accessToken, refreshToken } = response;
+      if (accessToken) {
+        await SecureStore.setItemAsync("accessToken", accessToken);
       }
+      if (refreshToken) {
+        await SecureStore.setItemAsync("refreshToken", refreshToken);
+      }
+
       Toast.show({
         type: "success",
         text1: "Success",
-        text2: "Login successfully! 🎉",
+        text2: "Login successful! 🎉",
       });
     },
+
     onError: (error: any) => {
       if (error.response?.status === 500) {
         Toast.show({
@@ -55,16 +49,8 @@ export const useLogin = () => {
 export const useSignUp = () => {
   return useMutation({
     mutationFn: async ({ payload }: { payload: any }) => {
-      try {
-        const response = await axios.post(`${baseUrl}/auth/register`, payload, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        return response.data;
-      } catch (error) {
-        throw error;
-      }
+      const response = await api.post(`/auth/register`, payload);
+      return response.data;
     },
     onSuccess: () => {
       Toast.show({
@@ -95,20 +81,8 @@ export const useSignUp = () => {
 export const useVerifyEmail = () => {
   return useMutation({
     mutationFn: async ({ payload }: { payload: any }) => {
-      try {
-        const response = await axios.post(
-          `${baseUrl}/auth/verify-email`,
-          payload,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        return response.data;
-      } catch (error) {
-        throw error;
-      }
+      const response = await api.post(`/auth/verify-email`, payload);
+      return response.data;
     },
     onSuccess: () => {
       Toast.show({
@@ -139,20 +113,8 @@ export const useVerifyEmail = () => {
 export const useResendOPT = () => {
   return useMutation({
     mutationFn: async ({ payload }: { payload: any }) => {
-      try {
-        const response = await axios.post(
-          `${baseUrl}/auth/resend-verification`,
-          payload,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        return response.data;
-      } catch (error) {
-        throw error;
-      }
+      const response = await api.post(`/auth/resend-verification`, payload);
+      return response.data;
     },
     onSuccess: () => {
       Toast.show({
@@ -183,20 +145,8 @@ export const useResendOPT = () => {
 export const useResetPassword = () => {
   return useMutation({
     mutationFn: async ({ payload }: { payload: any }) => {
-      try {
-        const response = await axios.put(
-          `${baseUrl}/auth/reset-password`,
-          payload,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        return response.data;
-      } catch (error) {
-        throw error;
-      }
+      const response = await api.post(`/auth/reset-password`, payload);
+      return response.data;
     },
     onSuccess: () => {
       Toast.show({
@@ -227,15 +177,8 @@ export const useResetPassword = () => {
 export const useForgotPassword = () => {
   return useMutation({
     mutationFn: async (payload: ForgotPasswordType) => {
-      try {
-        const response = await axios.post(
-          `${baseUrl}/auth/forgot-password`,
-          payload
-        );
-        return response.data;
-      } catch (error) {
-        throw error;
-      }
+      const response = await api.post(`/auth/forgot-password`, payload);
+      return response.data;
     },
     onSuccess: () => {
       Toast.show({

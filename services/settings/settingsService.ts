@@ -1,9 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-import { getItemAsync } from "expo-secure-store";
 import Toast from "react-native-toast-message";
-
-const baseUrl = process.env.EXPO_PUBLIC_API_BASE_URL!;
+import api from "../apiClient";
 
 // =========================
 // GET USER PROFILE
@@ -12,16 +9,7 @@ export const useUserProfile = () => {
   return useQuery({
     queryKey: ["userProfile"],
     queryFn: async () => {
-      const token = await getItemAsync("token");
-      if (!token) throw new Error("Unauthorized: No token found");
-
-      const response = await axios.get(`${baseUrl}/users/user-profile`, {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
+      const response = await api.get(`/users/user-profile`);
       return response.data;
     },
   });
@@ -34,20 +22,7 @@ export const useUpdateUserProfile = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ payload }: { payload: any }) => {
-      const token = await getItemAsync("token");
-      if (!token) throw new Error("Unauthorized: No token found");
-
-      const response = await axios.put(
-        `${baseUrl}/users/update-user`,
-        payload,
-        {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
+      const response = await api.put(`/users/update-user`, payload);
       return response.data;
     },
     onSuccess: () => {
@@ -77,16 +52,7 @@ export const useDeleteUserProfile = () => {
 
   return useMutation({
     mutationFn: async () => {
-      const token = await getItemAsync("token");
-      if (!token) throw new Error("Unauthorized: No token found");
-
-      const response = await axios.delete(`${baseUrl}/users/delete-user`, {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
+      const response = await api.delete(`/users/delete-user`);
       return response.data;
     },
 
@@ -113,20 +79,8 @@ export const useDeleteUserProfile = () => {
 export const useChangePassword = () => {
   return useMutation({
     mutationFn: async ({ payload }: { payload: any }) => {
-      try {
-        const response = await axios.patch(
-          `${baseUrl}/user/change-password`,
-          payload,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        return response.data;
-      } catch (error) {
-        throw error;
-      }
+      const response = await api.patch(`/user/change-password`, payload);
+      return response.data;
     },
     onSuccess: () => {
       Toast.show({

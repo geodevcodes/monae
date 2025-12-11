@@ -1,6 +1,6 @@
 import CustomButton from "@/components/CustomButton";
 import BudgetDetailShimmer from "@/components/shimmer/BudgetDetailShimmer";
-import { useGetBudget } from "@/services/budget/budgetService";
+import { useDeleteBudget, useGetBudget } from "@/services/budget/budgetService";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import moment from "moment";
@@ -12,6 +12,7 @@ const BudgetDetails = () => {
   const router = useRouter();
 
   const { data: budget, isLoading } = useGetBudget(id as string);
+  const { mutate: deleteBudget, isPending } = useDeleteBudget();
 
   if (isLoading) {
     return <BudgetDetailShimmer />;
@@ -20,6 +21,10 @@ const BudgetDetails = () => {
   const progress = budget?.budgetProgress || 0;
   const remaining = budget?.remainingBudget || budget?.budgetAmount || 0;
   const expenses = budget?.totalExpenses || 0;
+
+  const deleteBudgetHandler = () => {
+    deleteBudget(id as string, { onSuccess: () => router.back() });
+  };
 
   return (
     <SafeAreaView className="px-5 pt-4 pb-2 bg-white h-full">
@@ -97,8 +102,8 @@ const BudgetDetails = () => {
         textStyles="text-white font-medium"
       />
       <CustomButton
-        title="Delete"
-        handlePress={() => router.back()}
+        title={isPending ? "Deleting.." : "Delete"}
+        handlePress={() => deleteBudgetHandler()}
         className="mt-3 rounded-3xl"
         textStyles="text-[#535862] font-medium"
       />
