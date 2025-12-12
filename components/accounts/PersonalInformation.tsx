@@ -1,5 +1,4 @@
-import images from "@/constants/images";
-import { EMAIL_REGEX } from "@/lib/lib";
+import { avatarPlaceholderUrl, EMAIL_REGEX } from "@/lib/lib";
 import { useFilesUploadRequest } from "@/services/file-upload/files-upload.request";
 import {
   useUpdateUserProfile,
@@ -47,6 +46,9 @@ const PersonalInformation = () => {
         phoneNumber: userProfile.phoneNumber || "",
       });
     }
+    if (userProfile?.avatarImage) {
+      setUserAvatar({ uri: userProfile.avatarImage } as any);
+    }
   }, [userProfile]);
 
   const openPicker = async (selectType: "image" | "video") => {
@@ -78,11 +80,6 @@ const PersonalInformation = () => {
           size: asset.size,
         };
         setUserAvatar(pickedFile);
-        Toast.show({
-          type: "success",
-          text1: "Document picked",
-          text2: "Document picked successfully",
-        });
         await fileUploadHandler(pickedFile);
       }
     } catch (error) {
@@ -107,7 +104,7 @@ const PersonalInformation = () => {
     try {
       const uploadResponse = await filesUploadRequest({ formData });
       if (uploadResponse?.success) {
-        const payload = { avatarImage: uploadResponse.data.filesUrl };
+        const payload = { avatarImage: uploadResponse.data.fileUrl };
         updateUserProfile({ payload }, { onSuccess: () => setShowEdit(false) });
       } else {
         throw new Error("Upload failed");
@@ -131,18 +128,26 @@ const PersonalInformation = () => {
     <View>
       {!showEdit ? (
         <>
-          <View className="flex-row justify-center flex mt-5">
-            <View className="flex flex-col items-center relative mt-5">
+          <View className="flex-col items-center justify-center flex mt-5">
+            <View className="flex items-center relative mt-5">
               <Image
-                source={userAvatar ? { uri: userAvatar.uri } : images.avatar}
+                source={
+                  userAvatar
+                    ? { uri: userAvatar.uri }
+                    : userProfile?.avatarImage
+                    ? { uri: userProfile.avatarImage }
+                    : { uri: avatarPlaceholderUrl }
+                }
                 className="size-40 relative rounded-full"
               />
               <TouchableOpacity
                 onPress={() => openPicker("image")}
-                className="absolute bottom-20 -right-1 shadow-md bg-[#FFFFFF] p-2 rounded-full"
+                className="absolute bottom-6 -right-1 shadow-md bg-[#FFFFFF] p-2 rounded-full"
               >
                 <SimpleLineIcons name="pencil" size={16} color="#4E43EA" />
               </TouchableOpacity>
+            </View>
+            <View className="flex items-center">
               <Text className="text-2xl text-[#00011B] mt-2">
                 {!userProfile?.firstName && !userProfile?.lastName
                   ? "Franklin James"
@@ -185,6 +190,9 @@ const PersonalInformation = () => {
                   </Text>
                   <Text className="text-xs text-gray-600">
                     {userProfile?.phoneNumber ?? "+23481*****890"}
+                    {userProfile?.phoneNumber
+                      ? `${userProfile?.phoneNumber}`
+                      : "+23481*****890"}
                   </Text>
                 </View>
               </View>

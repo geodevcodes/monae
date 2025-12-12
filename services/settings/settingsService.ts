@@ -1,6 +1,6 @@
+import axiosInstance from "@/services/apiClient";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
-import api from "../apiClient";
 
 // =========================
 // GET USER PROFILE
@@ -9,7 +9,7 @@ export const useUserProfile = () => {
   return useQuery({
     queryKey: ["userProfile"],
     queryFn: async () => {
-      const response = await api.get(`/users/user-profile`);
+      const response = await axiosInstance.get(`/users/user-profile`);
       return response.data;
     },
   });
@@ -22,7 +22,7 @@ export const useUpdateUserProfile = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ payload }: { payload: any }) => {
-      const response = await api.put(`/users/update-user`, payload);
+      const response = await axiosInstance.put(`/users/update-user`, payload);
       return response.data;
     },
     onSuccess: () => {
@@ -52,7 +52,7 @@ export const useDeleteUserProfile = () => {
 
   return useMutation({
     mutationFn: async () => {
-      const response = await api.delete(`/users/delete-user`);
+      const response = await axiosInstance.delete(`/users/delete-user`);
       return response.data;
     },
 
@@ -79,7 +79,10 @@ export const useDeleteUserProfile = () => {
 export const useChangePassword = () => {
   return useMutation({
     mutationFn: async ({ payload }: { payload: any }) => {
-      const response = await api.patch(`/user/change-password`, payload);
+      const response = await axiosInstance.patch(
+        `/user/change-password`,
+        payload
+      );
       return response.data;
     },
     onSuccess: () => {

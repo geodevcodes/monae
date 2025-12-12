@@ -1,13 +1,13 @@
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 
-const api = axios.create({
+const axiosInstance = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_BASE_URL,
   headers: { "Content-Type": "application/json" },
 });
 
 // REQUEST INTERCEPTOR
-api.interceptors.request.use(async (config) => {
+axiosInstance.interceptors.request.use(async (config) => {
   const token = await SecureStore.getItemAsync("accessToken");
 
   if (token) {
@@ -18,7 +18,7 @@ api.interceptors.request.use(async (config) => {
 });
 
 // RESPONSE INTERCEPTOR (auto-refresh)
-api.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
@@ -46,7 +46,7 @@ api.interceptors.response.use(
 
         // Update header and retry request
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        return api(originalRequest);
+        return axiosInstance(originalRequest);
       } catch (refreshError) {
         return Promise.reject(refreshError);
       }
@@ -56,4 +56,4 @@ api.interceptors.response.use(
   }
 );
 
-export default api;
+export default axiosInstance;

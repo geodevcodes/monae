@@ -1,18 +1,22 @@
+import axiosInstance from "@/services/apiClient";
 import { useMutation } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
-import api from "../apiClient";
 
 // FILES UPLOAD REQUEST
 export const useFilesUploadRequest = () => {
   return useMutation({
     mutationFn: async ({ formData }: { formData: FormData }) => {
       try {
-        const response = await api.post(`/files-upload/file`, formData, {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        const response = await axiosInstance.post(
+          `/files-upload/file`,
+          formData,
+          {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
         return response.data;
       } catch (error: any) {
         throw error;

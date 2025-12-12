@@ -31,3 +31,6 @@ export const getProgressStyles = (progress: number) => {
     bg: "#FFEAF0",
   };
 };
+
+
+export const avatarPlaceholderUrl = `https://api.dicebear.com/7.x/avataaars/png?seed=46`;

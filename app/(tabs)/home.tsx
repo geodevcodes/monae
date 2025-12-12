@@ -1,8 +1,9 @@
 import HomeShimmer from "@/components/shimmer/HomeShimmer";
 import images from "@/constants/images";
 import { spendingData } from "@/lib/data/spendingData";
-import { getProgressStyles } from "@/lib/lib";
+import { avatarPlaceholderUrl, getProgressStyles } from "@/lib/lib";
 import { useGetBudgetsInfinite } from "@/services/budget/budgetService";
+import { useUserProfile } from "@/services/settings/settingsService";
 import { EvilIcons, Feather } from "@expo/vector-icons";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -25,6 +26,9 @@ const Home = () => {
   const router = useRouter();
 
   const { data, isLoading } = useGetBudgetsInfinite();
+  const { data: profileData } = useUserProfile();
+  const userProfile =
+    (profileData && (profileData.data ?? profileData)) || null;
 
   // Flatten infinite pages
   const budgetData = data?.pages.flatMap((page) => page.data) ?? [];
@@ -35,14 +39,21 @@ const Home = () => {
         <View className="flex flex-row justify-center items-center gap-2">
           <View className="w-10 h-10 rounded-full overflow-hidden">
             <Image
-              source={images.avatar}
+              source={
+                userProfile?.avatarImage
+                  ? { uri: userProfile.avatarImage }
+                  : { uri: avatarPlaceholderUrl }
+              }
               resizeMode="cover"
               className="w-full h-full"
             />
           </View>
           <View>
             <Text className="text-base text-[#232429] font-semibold">
-              Hello, Christiana!
+              Hello,{" "}
+              {userProfile?.lastName
+                ? `${userProfile?.lastName}!`
+                : "Franklin!"}
             </Text>
             <Text className="text-xs text-[#535862]">
               Let's check in on your money today.

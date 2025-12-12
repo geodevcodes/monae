@@ -1,5 +1,6 @@
 import icons from "@/constants/icons";
-import images from "@/constants/images";
+import { avatarPlaceholderUrl } from "@/lib/lib";
+import { useUserProfile } from "@/services/settings/settingsService";
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -28,6 +29,10 @@ const TabIcon = ({
 );
 
 const TabsLayout = () => {
+  const { data: profileData } = useUserProfile();
+  const userProfile =
+    (profileData && (profileData.data ?? profileData)) || null;
+
   return (
     <>
       <Tabs
@@ -133,7 +138,11 @@ const TabsLayout = () => {
                 Icon={
                   <View className="w-8 h-8 mt-2 rounded-full overflow-hidden">
                     <Image
-                      source={images.avatar}
+                      source={
+                        userProfile?.avatarImage
+                          ? { uri: userProfile.avatarImage }
+                          : { uri: avatarPlaceholderUrl }
+                      }
                       resizeMode="cover"
                       className="w-full h-full"
                     />

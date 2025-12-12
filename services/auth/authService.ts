@@ -1,14 +1,14 @@
+import axiosInstance from "@/services/apiClient";
 import { ForgotPasswordType, LoginType } from "@/types/authType";
 import { useMutation } from "@tanstack/react-query";
 import * as SecureStore from "expo-secure-store";
 import Toast from "react-native-toast-message";
-import api from "../apiClient";
 
 // LOGIN  REQUEST
 export const useLogin = () => {
   return useMutation({
     mutationFn: async ({ payload }: { payload: LoginType }) => {
-      const response = await api.post(`/auth/login`, payload);
+      const response = await axiosInstance.post(`/auth/login`, payload);
       return response.data;
     },
     onSuccess: async (response) => {
@@ -49,7 +49,7 @@ export const useLogin = () => {
 export const useSignUp = () => {
   return useMutation({
     mutationFn: async ({ payload }: { payload: any }) => {
-      const response = await api.post(`/auth/register`, payload);
+      const response = await axiosInstance.post(`/auth/register`, payload);
       return response.data;
     },
     onSuccess: () => {
@@ -81,7 +81,7 @@ export const useSignUp = () => {
 export const useVerifyEmail = () => {
   return useMutation({
     mutationFn: async ({ payload }: { payload: any }) => {
-      const response = await api.post(`/auth/verify-email`, payload);
+      const response = await axiosInstance.post(`/auth/verify-email`, payload);
       return response.data;
     },
     onSuccess: () => {
@@ -113,7 +113,10 @@ export const useVerifyEmail = () => {
 export const useResendOPT = () => {
   return useMutation({
     mutationFn: async ({ payload }: { payload: any }) => {
-      const response = await api.post(`/auth/resend-verification`, payload);
+      const response = await axiosInstance.post(
+        `/auth/resend-verification`,
+        payload
+      );
       return response.data;
     },
     onSuccess: () => {
@@ -145,7 +148,10 @@ export const useResendOPT = () => {
 export const useResetPassword = () => {
   return useMutation({
     mutationFn: async ({ payload }: { payload: any }) => {
-      const response = await api.post(`/auth/reset-password`, payload);
+      const response = await axiosInstance.post(
+        `/auth/reset-password`,
+        payload
+      );
       return response.data;
     },
     onSuccess: () => {
@@ -177,7 +183,10 @@ export const useResetPassword = () => {
 export const useForgotPassword = () => {
   return useMutation({
     mutationFn: async (payload: ForgotPasswordType) => {
-      const response = await api.post(`/auth/forgot-password`, payload);
+      const response = await axiosInstance.post(
+        `/auth/forgot-password`,
+        payload
+      );
       return response.data;
     },
     onSuccess: () => {

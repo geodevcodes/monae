@@ -1,3 +1,4 @@
+import axiosInstance from "@/services/apiClient";
 import {
   useInfiniteQuery,
   useMutation,
@@ -5,7 +6,6 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
-import api from "../apiClient";
 
 // CREATE BUDGET REQUEST
 export const useCreateBudget = () => {
@@ -13,7 +13,10 @@ export const useCreateBudget = () => {
 
   return useMutation({
     mutationFn: async ({ payload }: { payload: any }) => {
-      const response = await api.post(`/budgets/create-budget`, payload);
+      const response = await axiosInstance.post(
+        `/budgets/create-budget`,
+        payload
+      );
       return response.data;
     },
 
@@ -48,7 +51,7 @@ export const useUpdateBudget = () => {
       payload: any;
       budgetId: string;
     }) => {
-      const response = await api.put(`/budgets/${budgetId}`, payload);
+      const response = await axiosInstance.put(`/budgets/${budgetId}`, payload);
       return response.data;
     },
 
@@ -76,7 +79,7 @@ export const useGetBudget = (budgetId: string) => {
   return useQuery({
     queryKey: ["budget", budgetId],
     queryFn: async () => {
-      const response = await api.get(`/budgets/${budgetId}`);
+      const response = await axiosInstance.get(`/budgets/${budgetId}`);
       return response.data.data;
     },
     enabled: !!budgetId,
@@ -89,7 +92,7 @@ export const useGetBudgetsInfinite = () => {
     queryKey: ["budget-list"],
 
     queryFn: async ({ pageParam = 1 }) => {
-      const response = await api.get(`/budgets`, {
+      const response = await axiosInstance.get(`/budgets`, {
         params: { pageNumber: pageParam, limit: 10 },
       });
       return response.data;
@@ -112,7 +115,7 @@ export const useDeleteBudget = () => {
 
   return useMutation({
     mutationFn: async (budgetId: string) => {
-      const response = await api.delete(`/budgets/${budgetId}`);
+      const response = await axiosInstance.delete(`/budgets/${budgetId}`);
       return response.data;
     },
 

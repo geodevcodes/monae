@@ -54,7 +54,7 @@ const Accounts = () => {
         scrollEventThrottle={16}
         contentContainerStyle={{ paddingBottom: 120 }}
       >
-        {/* Unified Rendering */}
+        {/* Unified Rendering  */}
         {settingsData.map((section, sectionIndex) => (
           <View key={sectionIndex} className="mt-6 mb-2 gap-3">
             <Text className="text-sm text-gray-600">{section.section}</Text>

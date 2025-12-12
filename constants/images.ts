@@ -1,4 +1,3 @@
-import avatar from "@/assets/images/avatar.jpeg";
 import comingsoon from "@/assets/images/comingsoon.jpeg";
 import trash from "@/assets/images/empty.png";
 import brandLogo from "@/assets/images/icon.png";
@@ -13,7 +12,6 @@ import walletBg from "@/assets/images/wallet-bg.png";
 import zenith from "@/assets/images/zenith.png";
 
 export default {
-  avatar,
   trash,
   comingsoon,
   brandLogo,
