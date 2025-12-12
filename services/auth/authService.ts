@@ -213,3 +213,35 @@ export const useForgotPassword = () => {
     },
   });
 };
+
+// LOGOUT REQUEST
+export const useLogout = () => {
+  return useMutation({
+    mutationFn: async () => {
+      const response = await axiosInstance.post(`/auth/logout`);
+      return response.data;
+    },
+
+    onSuccess: async () => {
+      // remove tokens securely
+      await SecureStore.deleteItemAsync("accessToken");
+      await SecureStore.deleteItemAsync("refreshToken");
+
+      Toast.show({
+        type: "success",
+        text1: "Logged Out",
+        text2: "You have been logged out successfully.",
+      });
+    },
+
+    onError: (error: any) => {
+      console.log("Logout error:", error);
+
+      Toast.show({
+        type: "error",
+        text1: "Logout Failed",
+        text2: error.response?.data?.message || "Something went wrong.",
+      });
+    },
+  });
+};

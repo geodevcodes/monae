@@ -1,4 +1,5 @@
 import { settingsData } from "@/lib/data/accountData";
+import { useLogout } from "@/services/auth/authService";
 import { FontAwesome } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
@@ -15,6 +16,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const { width } = Dimensions.get("window");
 
 const Accounts = () => {
+  const { mutate: logout } = useLogout();
   const router = useRouter();
   const scrollY = useSharedValue(0);
 
@@ -61,9 +63,14 @@ const Accounts = () => {
             {section.items.map((item, index) => (
               <TouchableOpacity
                 key={index}
-                onPress={() =>
-                  router.push(`/(others)/account-details/${item.id}`)
-                }
+                onPress={() => {
+                  if (item.name === "Sign Out") {
+                    logout();
+                    router.push("/(auth)/login-screen");
+                    return;
+                  }
+                  router.push(`/(others)/account-details/${item.id}`);
+                }}
                 className="flex flex-row items-center justify-between py-3 rounded-xl"
               >
                 <View className="flex flex-row items-center gap-3">
