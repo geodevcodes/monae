@@ -1,63 +1,61 @@
+import { AuthContext, AuthProvider } from "@/providers/AuthProvider";
 import TanstackProvider from "@/providers/TanstackProvider";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-// import { usePreventScreenCapture } from "expo-screen-capture";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
-import "./global.css";
+import { useContext, useEffect } from "react";
 import Toast from "react-native-toast-message";
-// import AnimatedSplashScreen from "@/components/AnimatedSplashScreen";
+import "./global.css";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 // Set the animation options. This is Optional.
 SplashScreen.setOptions({
-  duration: 400,
+  duration: 500,
   fade: true,
 });
+
+function RootNavigator() {
+  const { isAuthenticated, loading } = useContext(AuthContext)!;
+
+  if (loading) {
+    return null; // splash screen still showing
+  }
+
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      {isAuthenticated ? (
+        <Stack.Screen name="(private)" />
+      ) : (
+        <Stack.Screen name="(auth)" />
+      )}
+    </Stack>
+  );
+}
 
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
     "SpaceMono-Regular": require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
-  // usePreventScreenCapture();
 
   useEffect(() => {
     if (fontError) throw fontError;
-
     if (fontsLoaded || fontError) {
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded, fontError]);
 
-  if (!fontsLoaded) {
-    // return <AnimatedSplashScreen />;
+  if (!fontsLoaded && !fontError) {
     return null;
   }
-
-  if (!fontsLoaded && !fontError) {
-    // return <AnimatedSplashScreen />;
-    return null
-  }
-
   return (
-    <TanstackProvider>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="(others)/account-details" options={{ headerShown: false }} />
-        <Stack.Screen name="(others)/account-details/[id]" options={{ headerShown: false }} />
-        <Stack.Screen name="(others)/budget-details/[id]" options={{ headerShown: false }} />
-        <Stack.Screen name="(others)/create-budget" options={{ headerShown: false }} />
-        <Stack.Screen name="(others)/connected-banks" options={{ headerShown: false }} />
-        <Stack.Screen name="(others)/connect-bank" options={{ headerShown: false }} />
-        <Stack.Screen name="(others)/uncategorized-spending" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-      </Stack>
-      <StatusBar style="auto" animated backgroundColor="#ff6600" />
-      <Toast />
-    </TanstackProvider>
+    <AuthProvider>
+      <TanstackProvider>
+        <RootNavigator />
+        <StatusBar style="auto" animated backgroundColor="#EDF2FF" />
+        <Toast />
+      </TanstackProvider>
+    </AuthProvider>
   );
 }

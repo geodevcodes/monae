@@ -1,4 +1,5 @@
 import axiosInstance from "@/services/apiClient";
+import { saveTokens } from "@/services/auth/saveTokens";
 import { ForgotPasswordType, LoginType } from "@/types/authType";
 import { useMutation } from "@tanstack/react-query";
 import * as SecureStore from "expo-secure-store";
@@ -13,12 +14,7 @@ export const useLogin = () => {
     },
     onSuccess: async (response) => {
       const { accessToken, refreshToken } = response;
-      if (accessToken) {
-        await SecureStore.setItemAsync("accessToken", accessToken);
-      }
-      if (refreshToken) {
-        await SecureStore.setItemAsync("refreshToken", refreshToken);
-      }
+      await saveTokens(accessToken, refreshToken);
 
       Toast.show({
         type: "success",
@@ -218,12 +214,11 @@ export const useForgotPassword = () => {
 export const useLogout = () => {
   return useMutation({
     mutationFn: async () => {
-      const response = await axiosInstance.post(`/auth/logout`);
-      return response.data;
+      await axiosInstance.post("/auth/logout");
     },
 
     onSuccess: async () => {
-      // remove tokens securely
+      // Clear tokens (single source of truth)
       await SecureStore.deleteItemAsync("accessToken");
       await SecureStore.deleteItemAsync("refreshToken");
 
@@ -234,13 +229,15 @@ export const useLogout = () => {
       });
     },
 
-    onError: (error: any) => {
-      console.log("Logout error:", error);
+    onError: async () => {
+      // Even if server fails, force logout locally
+      await SecureStore.deleteItemAsync("accessToken");
+      await SecureStore.deleteItemAsync("refreshToken");
 
       Toast.show({
         type: "error",
-        text1: "Logout Failed",
-        text2: error.response?.data?.message || "Something went wrong.",
+        text1: "Session Ended",
+        text2: "You have been logged out.",
       });
     },
   });

@@ -1,5 +1,6 @@
-import images from "@/constants/images";
 import { quickActions } from "@/lib/data/sparklesData";
+import { avatarPlaceholderUrl } from "@/lib/lib";
+import { useUserProfile } from "@/services/settings/settingsService";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
@@ -9,6 +10,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const Sparkles = () => {
   const router = useRouter();
   const [message, setMessage] = useState("");
+  const { data: profileData } = useUserProfile();
+  const userProfile =
+    (profileData && (profileData.data ?? profileData)) || null;
 
   return (
     <SafeAreaView className="px-5 pt-4 pb-2 bg-white h-full">
@@ -29,10 +33,14 @@ const Sparkles = () => {
       <View className="flex-row justify-center flex mt-5">
         <View className="flex flex-col items-center relative mt-5">
           <Image
-            source={images.avatar}
+            source={avatarPlaceholderUrl && { uri: avatarPlaceholderUrl }}
             className="size-24 relative rounded-full"
           />
-          <Text className="text-lg text-[#00011B] mt-3">Hi, Christiana 👋</Text>
+          <Text className="text-lg text-[#00011B] mt-3">
+            Hi,{" "}
+            {userProfile?.lastName ? `${userProfile?.lastName}` : "Franklin!"}{" "}
+            👋
+          </Text>
         </View>
       </View>
       <Text className="text-xl text-[#00011B] font-medium mt-6 text-center">

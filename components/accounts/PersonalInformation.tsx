@@ -189,7 +189,6 @@ const PersonalInformation = () => {
                     Phone Number
                   </Text>
                   <Text className="text-xs text-gray-600">
-                    {userProfile?.phoneNumber ?? "+23481*****890"}
                     {userProfile?.phoneNumber
                       ? `${userProfile?.phoneNumber}`
                       : "+23481*****890"}

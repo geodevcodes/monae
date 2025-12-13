@@ -145,7 +145,7 @@ const Budgets = () => {
           renderItem={({ item }) => (
             <TouchableOpacity
               onPress={() =>
-                router.push(`/(others)/budget-details/${item._id}`)
+                router.push(`/(private)/(others)/budget-details/${item._id}`)
               }
               className="px-7 py-3.5 rounded-lg gap-3 mt-4 border-b border-[#F5F6F6]"
             >
@@ -179,7 +179,7 @@ const Budgets = () => {
         />
       </Animated.ScrollView>
       <TouchableOpacity
-        onPress={() => router.push("/(others)/create-budget")}
+        onPress={() => router.push("/(private)/(others)/create-budget")}
         className="absolute bottom-40 right-6 bg-[#5F61F5] w-16 h-16 rounded-full items-center justify-center shadow-lg"
         style={{
           elevation: 8,

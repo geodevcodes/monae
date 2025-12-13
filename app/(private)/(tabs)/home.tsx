@@ -97,7 +97,9 @@ const Home = () => {
                 </Text>
               )}
               <TouchableOpacity
-                onPress={() => router.push("/(others)/connected-banks")}
+                onPress={() =>
+                  router.push("/(private)/(others)/connected-banks")
+                }
               >
                 <EvilIcons name="chevron-right" size={24} color="#FFFFFF" />
               </TouchableOpacity>
@@ -108,7 +110,9 @@ const Home = () => {
         <View className="mt-10">
           <View className="flex flex-row justify-between items-center mb-4">
             <Text className="text-[#232429] font-bold text-lg">My Budget</Text>
-            <TouchableOpacity onPress={() => router.push("/(tabs)/budgets")}>
+            <TouchableOpacity
+              onPress={() => router.push("/(private)/(tabs)/budgets")}
+            >
               <View className="flex flex-row items-center gap-3">
                 <Text className="text-[#5F61F5] text-sm">Manage Budgets</Text>
                 <Feather name="arrow-right" size={14} color="#5F61F5" />
@@ -126,7 +130,9 @@ const Home = () => {
                     <TouchableOpacity
                       key={index}
                       onPress={() =>
-                        router.push(`/(others)/budget-details/${item._id}`)
+                        router.push(
+                          `/(private)/(others)/budget-details/${item._id}`
+                        )
                       }
                       style={{
                         backgroundColor: getProgressStyles(item.budgetProgress)
@@ -167,7 +173,9 @@ const Home = () => {
 
         <View className="flex flex-col mt-4 p-3 border border-[#FFECB6] bg-[#FFFCF2] rounded-lg">
           <TouchableOpacity
-            onPress={() => router.push("/(others)/uncategorized-spending")}
+            onPress={() =>
+              router.push("/(private)/(others)/uncategorized-spending")
+            }
             className="flex flex-row items-center justify-between"
           >
             <View className="flex flex-row items-center gap-3">
@@ -189,7 +197,9 @@ const Home = () => {
             <Text className="text-[#232429] font-bold text-lg">
               My Spendings
             </Text>
-            <TouchableOpacity onPress={() => router.push("/(tabs)/budgets")}>
+            <TouchableOpacity
+              onPress={() => router.push("/(private)/(tabs)/budgets")}
+            >
               <View className="flex flex-row items-center gap-3">
                 <Text className="text-[#5F61F5] text-sm">This Month</Text>
                 <Ionicons

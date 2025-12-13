@@ -71,7 +71,7 @@ const ConnectedBanks = () => {
         </View>
       </Animated.ScrollView>
       <TouchableOpacity
-        onPress={() => router.push("/(others)/connect-bank")}
+        onPress={() => router.push("/(private)/(others)/connect-bank")}
         className="absolute bottom-40 right-6 bg-[#5F61F5] w-16 h-16 rounded-full items-center justify-center shadow-lg"
         style={{
           elevation: 8,

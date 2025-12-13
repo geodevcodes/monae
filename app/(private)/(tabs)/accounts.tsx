@@ -1,9 +1,11 @@
 import { settingsData } from "@/lib/data/accountData";
+import { AuthContext } from "@/providers/AuthProvider";
 import { useLogout } from "@/services/auth/authService";
 import { FontAwesome } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { useContext } from "react";
 import { Dimensions, Text, TouchableOpacity, View } from "react-native";
 import Animated, {
   useAnimatedScrollHandler,
@@ -16,8 +18,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const { width } = Dimensions.get("window");
 
 const Accounts = () => {
-  const { mutate: logout } = useLogout();
+  const { mutateAsync: logout } = useLogout();
+  const auth = useContext(AuthContext)!;
+  const queryClient = useQueryClient();
   const router = useRouter();
+
   const scrollY = useSharedValue(0);
 
   const scrollHandler = useAnimatedScrollHandler({
@@ -42,6 +47,12 @@ const Accounts = () => {
     };
   });
 
+  const handleLogout = async () => {
+    await logout();
+    await auth.signOut();
+    queryClient.clear();
+  };
+
   return (
     <SafeAreaView className="px-5 pt-4 pb-4 bg-white h-full">
       <View className="flex flex-row items-center justify-between mb-4 h-12">
@@ -65,11 +76,10 @@ const Accounts = () => {
                 key={index}
                 onPress={() => {
                   if (item.name === "Sign Out") {
-                    logout();
-                    router.push("/(auth)/login-screen");
+                    handleLogout();
                     return;
                   }
-                  router.push(`/(others)/account-details/${item.id}`);
+                  router.push(`/(private)/(others)/account-details/${item.id}`);
                 }}
                 className="flex flex-row items-center justify-between py-3 rounded-xl"
               >

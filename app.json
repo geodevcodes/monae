@@ -17,10 +17,12 @@
       },
       "bundleIdentifier": "com.geodevcode.monae",
       "infoPlist": {
+         "NSCameraUsageDescription": "Monae requires camera access for verification.",
         "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
+      "permissions": ["android.permission.CAMERA"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png",

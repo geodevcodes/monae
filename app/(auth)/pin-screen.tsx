@@ -15,7 +15,7 @@ const PinScreen = () => {
       setPin(newPin);
 
       if (newPin.length === 6) {
-        // router.replace("/(tabs)/home");
+        // router.replace("/(private)/(tabs)/home");
       }
     }
   };

@@ -2,34 +2,32 @@ import CustomButton from "@/components/CustomButton";
 import FormField from "@/components/FormField";
 import OAuth from "@/components/OAuth";
 import { EMAIL_REGEX } from "@/lib/lib";
+import { AuthContext } from "@/providers/AuthProvider";
 import { useLogin } from "@/services/auth/authService";
 import { Link, useRouter } from "expo-router";
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const LoginScreen = () => {
-  const router = useRouter();
   const { control, handleSubmit, getValues } = useForm();
-  const { mutate: loginUser, isPending } = useLogin();
+  const { mutateAsync: loginUser, isPending } = useLogin();
+  const auth = useContext(AuthContext)!;
+  const router = useRouter();
 
   // Login user Handler
   const onSignInPress = async () => {
     const { email, password } = getValues();
-
-    const payload = {
-      email,
-      password,
-    };
-    loginUser(
-      { payload },
+    await loginUser(
+      { payload: { email, password } },
       {
         onSuccess: () => {
-          router.push("/(tabs)/home");
+          router.push("/(private)/(tabs)/home");
         },
       }
     );
+    await auth.refreshAuthState();
   };
 
   return (
