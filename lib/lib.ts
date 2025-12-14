@@ -39,6 +39,8 @@ export const GOOGLE_CONFIG = {
     "621054984778-13up9fca031st6qbsnki516a8ioa8b5f.apps.googleusercontent.com",
   iosClientId:
     "621054984778-j2ashj7ghg9em8hq28l6bev1f9np6vca.apps.googleusercontent.com",
+  androidClientId:
+    "621054984778-3sn4ja9ttrc6c1g7r8rmffpr945ls87j.apps.googleusercontent.com",
   scopes: ["https://www.googleapis.com/auth/drive.readonly"],
   accountName: "Monae",
   profileImageSize: 120,
