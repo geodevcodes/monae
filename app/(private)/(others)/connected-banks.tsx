@@ -1,3 +1,5 @@
+import EmptyState from "@/components/EmptyState";
+import images from "@/constants/images";
 import { useGetConnectedBanks } from "@/services/connect-bank/connect-bank";
 import { Feather } from "@expo/vector-icons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
@@ -49,38 +51,45 @@ const ConnectedBanks = () => {
           </Text>
 
           <View className="flex flex-col mt-3">
-            {banks?.map((item: any, index: any) => (
-              <TouchableOpacity
-                key={index}
-                className="flex flex-row items-center justify-between py-3"
-              >
-                <View className="flex flex-row items-center gap-3">
-                  <View className="p-0.5 w-14 h-14 border border-gray-300 rounded-full overflow-hidden">
-                    <Image
-                      source={{ uri: item?.logoUrl }}
-                      resizeMode="cover"
-                      className="w-full h-full rounded-full"
-                    />
+            {banks?.length <= 0 ? (
+              <EmptyState
+                imageUrl={images.trash}
+                title="No Connected Banks found"
+              />
+            ) : (
+              banks?.map((item: any, index: any) => (
+                <TouchableOpacity
+                  key={item.id ?? index}
+                  className="flex flex-row items-center justify-between py-3"
+                >
+                  <View className="flex flex-row items-center gap-3">
+                    <View className="p-0.5 w-14 h-14 border border-gray-300 rounded-full overflow-hidden">
+                      <Image
+                        source={{ uri: item?.logoUrl }}
+                        resizeMode="cover"
+                        className="w-full h-full rounded-full"
+                      />
+                    </View>
+                    <View className="gap-2">
+                      <Text className="text-base font-semibold text-gray-600">
+                        {item?.institution}
+                      </Text>
+                      <Text className="text-xs text-gray-600">
+                        {item?.accountNumber
+                          ? `******${item?.accountNumber.slice(-3)}`
+                          : "******"}
+                      </Text>
+                    </View>
                   </View>
-                  <View className="gap-2">
-                    <Text className="text-base font-semibold text-gray-600">
-                      {item?.institution}
-                    </Text>
-                    <Text className="text-xs text-gray-600">
-                      {item?.accountNumber
-                        ? `******${item?.accountNumber.slice(-3)}`
-                        : "******"}
-                    </Text>
-                  </View>
-                </View>
-                <Text className="text-base text-gray-600">
-                  {item?.balance.toLocaleString("en-NG", {
-                    style: "currency",
-                    currency: item?.currency ?? "NGN",
-                  })}
-                </Text>
-              </TouchableOpacity>
-            ))}
+                  <Text className="text-base text-gray-600">
+                    {item?.balance.toLocaleString("en-NG", {
+                      style: "currency",
+                      currency: item?.currency ?? "NGN",
+                    })}
+                  </Text>
+                </TouchableOpacity>
+              ))
+            )}
           </View>
         </View>
       </Animated.ScrollView>
