@@ -22,7 +22,7 @@
       }
     },
     "android": {
-      "permissions": ["android.permission.CAMERA"],
+      "permissions": ["android.permission.CAMERA", "android.permission.INTERNET"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png",
@@ -30,7 +30,19 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.geodevcode.monae"
+      "package": "com.geodevcode.monae",
+       "intentFilters": [
+    {
+      "action": "VIEW",
+      "category": ["BROWSABLE", "DEFAULT"],
+      "data": [
+        {
+          "scheme": "monae",
+          "host": "mono"
+        }
+      ]
+    }
+  ]
     },
     "web": {
       "output": "static",
