@@ -25,6 +25,18 @@ const LoginScreen = () => {
         onSuccess: () => {
           router.push("/(private)/(tabs)/home");
         },
+        onError: (error: any) => {
+          const status = error.response?.status;
+          const message = error.response?.data?.message;
+          if (
+            status === 401 &&
+            message ===
+              "Verify your email to continue. A new verification code has been sent to your email."
+          ) {
+            router.replace("/(auth)/verify-email");
+            return;
+          }
+        },
       }
     );
     await auth.refreshAuthState();

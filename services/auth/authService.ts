@@ -24,6 +24,7 @@ export const useLogin = () => {
     },
 
     onError: (error: any) => {
+      const message = error.response?.data?.message;
       if (error.response?.status === 500) {
         Toast.show({
           type: "error",
@@ -34,7 +35,7 @@ export const useLogin = () => {
         Toast.show({
           type: "error",
           text1: "Error",
-          text2: error.response?.data?.message,
+          text2: message ?? "Something went wrong",
         });
       }
     },
