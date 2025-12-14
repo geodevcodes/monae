@@ -3,6 +3,17 @@ export interface LoginType {
   password: string;
 }
 
+export interface GoogleLoginType {
+  email: string;
+  firstName: string;
+  lastName: string;
+  avatarImage: string;
+  googleId: string;
+  isVerified: true;
+}
+export interface OAuthProps {
+  title: string;
+}
 export interface SignupType {
   name: string;
   email: string;

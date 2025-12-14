@@ -1,15 +1,56 @@
 import axiosInstance from "@/services/apiClient";
 import { saveTokens } from "@/services/auth/saveTokens";
-import { ForgotPasswordType, LoginType } from "@/types/authType";
+import {
+  ForgotPasswordType,
+  GoogleLoginType,
+  LoginType,
+} from "@/types/authType";
 import { useMutation } from "@tanstack/react-query";
 import * as SecureStore from "expo-secure-store";
 import Toast from "react-native-toast-message";
 
-// LOGIN  REQUEST
+// MANUAL LOGIN  REQUEST
 export const useLogin = () => {
   return useMutation({
     mutationFn: async ({ payload }: { payload: LoginType }) => {
       const response = await axiosInstance.post(`/auth/login`, payload);
+      return response.data;
+    },
+    onSuccess: async (response) => {
+      const { accessToken, refreshToken } = response;
+      await saveTokens(accessToken, refreshToken);
+
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Login successful! 🎉",
+      });
+    },
+
+    onError: (error: any) => {
+      const message = error.response?.data?.message;
+      if (error.response?.status === 500) {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Internal Server Error",
+        });
+      } else {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: message ?? "Something went wrong",
+        });
+      }
+    },
+  });
+};
+
+// GOOGLE LOGIN  REQUEST
+export const useGoogleLogin = () => {
+  return useMutation({
+    mutationFn: async ({ payload }: { payload: GoogleLoginType }) => {
+      const response = await axiosInstance.post(`/auth/google-login`, payload);
       return response.data;
     },
     onSuccess: async (response) => {
