@@ -1,14 +1,25 @@
-import { connectedBanksData } from "@/lib/data/connectedBanksData";
+import { useGetConnectedBanks } from "@/services/connect-bank/connect-bank";
 import { Feather } from "@expo/vector-icons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { useRouter } from "expo-router";
 import React from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Animated from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const ConnectedBanks = () => {
+  const { data: banks, isLoading } = useGetConnectedBanks();
   const router = useRouter();
+
+  if (isLoading) {
+    return <ActivityIndicator size="small" color="#5F61F5" className="mt-40" />;
+  }
   return (
     <SafeAreaView className="px-8 pt-6 pb-2 bg-white h-full">
       <View className="flex flex-row items-center mt-4 pb-4">
@@ -38,7 +49,7 @@ const ConnectedBanks = () => {
           </Text>
 
           <View className="flex flex-col mt-3">
-            {connectedBanksData.map((item, index) => (
+            {banks?.map((item: any, index: any) => (
               <TouchableOpacity
                 key={index}
                 className="flex flex-row items-center justify-between py-3"
@@ -46,24 +57,27 @@ const ConnectedBanks = () => {
                 <View className="flex flex-row items-center gap-3">
                   <View className="p-0.5 w-14 h-14 border border-gray-300 rounded-full overflow-hidden">
                     <Image
-                      source={item.icon}
+                      source={{ uri: item?.logoUrl }}
                       resizeMode="cover"
                       className="w-full h-full rounded-full"
                     />
                   </View>
                   <View className="gap-2">
                     <Text className="text-base font-semibold text-gray-600">
-                      {item.name}
+                      {item?.institution}
                     </Text>
                     <Text className="text-xs text-gray-600">
-                      {item.accountNumber
-                        ? `******${item.accountNumber.slice(-3)}`
+                      {item?.accountNumber
+                        ? `******${item?.accountNumber.slice(-3)}`
                         : "******"}
                     </Text>
                   </View>
                 </View>
                 <Text className="text-base text-gray-600">
-                  {item.spendAmount}
+                  {item?.balance.toLocaleString("en-NG", {
+                    style: "currency",
+                    currency: item?.currency ?? "NGN",
+                  })}
                 </Text>
               </TouchableOpacity>
             ))}
