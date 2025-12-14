@@ -88,6 +88,7 @@ export default function ConnectBank() {
           </View>
 
           {/* Only use CustomButton - remove MonoConnectButton */}
+          <MonoConnectButton />
           <CustomButton
             title="Connect my Bank"
             className="mb-32 rounded-3xl bg-[#444CE7]"

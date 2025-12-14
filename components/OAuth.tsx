@@ -1,28 +1,58 @@
-// import { useOAuth } from "@clerk/clerk-expo";
 import CustomButton from "@/components/CustomButton";
 import icons from "@/constants/icons";
-import { router } from "expo-router";
+import {
+  GoogleSignin,
+  isErrorWithCode,
+  isSuccessResponse,
+  statusCodes,
+} from "@react-native-google-signin/google-signin";
+import { useEffect } from "react";
 import { Image, View } from "react-native";
-// import { googleOAuth } from "@/lib/auth";
 
 interface OAuthProps {
   title: string;
 }
 
 const OAuth = ({ title }: OAuthProps) => {
-  //   const { startOAuthFlow } = useOAuth({ strategy: "oauth_google" });
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        "621054984778-13up9fca031st6qbsnki516a8ioa8b5f.apps.googleusercontent.com",
+      scopes: ["https://www.googleapis.com/auth/drive.readonly"],
+      accountName: "Monae",
+      iosClientId:
+        "621054984778-j2ashj7ghg9em8hq28l6bev1f9np6vca.apps.googleusercontent.com",
+      profileImageSize: 120,
+    });
+  }, []);
 
+  // Somewhere in your code
   const handleGoogleSignIn = async () => {
-    // const result = await googleOAuth(startOAuthFlow);
-
-    // if (result.code === "session_exists") {
-    //   Alert.alert("Success", "Session exists. Redirecting to home screen.");
-    //   router.replace("/(private)/(tabs)/home");
-    // }
-
-    // Alert.alert(result.success ? "Success" : "Error", result.message);
-    // Alert.alert("User signed in successfully");
-    router.replace("/(auth)/verify-email");
+    try {
+      await GoogleSignin.hasPlayServices();
+      const response = await GoogleSignin.signIn();
+      if (isSuccessResponse(response)) {
+        // setState({ userInfo: response.data });
+        console.log({ userInfo: response.data }, "this is the data");
+      } else {
+        // sign in was cancelled by user
+      }
+    } catch (error) {
+      if (isErrorWithCode(error)) {
+        switch (error.code) {
+          case statusCodes.IN_PROGRESS:
+            // operation (eg. sign in) already in progress
+            break;
+          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+            // Android only, play services not available or outdated
+            break;
+          default:
+          // some other error happened
+        }
+      } else {
+        // an error that's not related to google sign in occurred
+      }
+    }
   };
 
   return (
