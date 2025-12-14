@@ -7,11 +7,11 @@ export const useConnectBank = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ payload }: { payload: any }) => {
-      const response = await axiosInstance.post(`/mono/exchange`, payload);
+    mutationFn: async (code: string) => {
+      const response = await axiosInstance.post(`/mono/exchange`, { code });
       return response.data;
     },
-
+    retry: false,
     onSuccess: () => {
       Toast.show({
         type: "success",
@@ -25,7 +25,10 @@ export const useConnectBank = () => {
       Toast.show({
         type: "error",
         text1: "Error",
-        text2: error?.response?.data?.message || "Internal Server Error",
+        text2:
+          error?.response?.data?.message ||
+          error?.message ||
+          "Failed to connect bank",
       });
     },
   });
