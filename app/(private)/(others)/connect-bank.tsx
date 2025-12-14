@@ -1,5 +1,6 @@
 import CustomButton from "@/components/CustomButton";
 import { useConnectBank } from "@/services/connect-bank/connect-bank";
+import { useUserProfile } from "@/services/settings/settingsService";
 import {
   AntDesign,
   Feather,
@@ -12,14 +13,13 @@ import React, { useCallback, useMemo, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-// Separate inner component that uses useMonoConnect
 function ConnectBankContent() {
   const router = useRouter();
-  const { init } = useMonoConnect(); // This now has access to MonoProvider context
+  const { init } = useMonoConnect();
 
   const handleConnect = useCallback(async () => {
     try {
-      await init(); // No arguments needed - uses context
+      await init();
     } catch (err) {
       console.error("Failed to open Mono Connect:", err);
     }
@@ -74,15 +74,19 @@ function ConnectBankContent() {
 export default function ConnectBank() {
   const [connecting, setConnecting] = useState(false);
   const { mutate: connectBank } = useConnectBank();
+  const { data: profileData } = useUserProfile();
+  const userProfile =
+    (profileData && (profileData.data ?? profileData)) || null;
+  const fullName =
+    `${userProfile?.lastName ?? ""} ${userProfile?.firstName ?? ""}`.trim() ||
+    "Monae";
 
   const handleSuccess = useCallback(
     (data: any) => {
       if (connecting) return;
       setConnecting(true);
-      console.log("Mono success payload:", data);
-      const code = data.code; 
+      const code = data.getAuthCode();
       if (!code) {
-        console.error("Mono did not return auth code");
         setConnecting(false);
         return;
       }
@@ -93,15 +97,14 @@ export default function ConnectBank() {
     [connectBank, connecting]
   );
 
-
   const monoConfig = useMemo(
     () => ({
       publicKey: process.env.EXPO_PUBLIC_MONO_PUBLIC_KEY!,
       scope: "auth",
       data: {
         customer: {
-          name: "John Doe",
-          email: "johndoe@example.com",
+          name: fullName,
+          email: `${userProfile?.email}`,
         },
       },
       onClose: () => console.log("Widget closed"),
