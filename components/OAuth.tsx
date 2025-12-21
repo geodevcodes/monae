@@ -35,10 +35,16 @@ const OAuth = ({ title }: OAuthProps) => {
 
   const handleGoogleSignIn = async () => {
     try {
-      await GoogleSignin.hasPlayServices();
+      console.log("Starting Google Sign In...");
+     await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+     console.log("Play Services available");
       const response = await GoogleSignin.signIn();
+       console.log("Sign in response:", response);
 
-      if (!isSuccessResponse(response)) return;
+       if (!isSuccessResponse(response)) {
+         console.log("Sign in was not successful");
+         return;
+       }
       const payload = mapGoogleUserToPayload(response.data.user);
       await googleLoginUser(
         { payload },
@@ -53,16 +59,25 @@ const OAuth = ({ title }: OAuthProps) => {
 
       await auth.refreshAuthState();
     } catch (error) {
-      if (!isErrorWithCode(error)) return;
+      console.error("Google Sign In Error:", error);
+
+      if (!isErrorWithCode(error)) {
+        console.error("Unknown error type:", error);
+        return;
+      }
 
       switch (error.code) {
+        case statusCodes.SIGN_IN_CANCELLED:
+          showErrorToast("Sign in cancelled");
+          break;
         case statusCodes.IN_PROGRESS:
+          showErrorToast("Sign in already in progress");
           break;
         case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
           showErrorToast("Google Play Services not available");
           break;
         default:
-          showErrorToast();
+          showErrorToast(`Error: ${error.code} - ${error.message}`);
       }
     }
   };
