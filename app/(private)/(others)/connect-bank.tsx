@@ -99,7 +99,7 @@ export default function ConnectBank() {
 
   const monoConfig = useMemo(
     () => ({
-      publicKey: process.env.EXPO_PUBLIC_MONO_PUBLIC_KEY!,
+      publicKey: "test_pk_ywh23pivf6l60vuzhg5c",
       scope: "auth",
       data: {
         customer: {
