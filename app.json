@@ -17,12 +17,17 @@
       },
       "bundleIdentifier": "com.geodevcode.monae",
       "infoPlist": {
-         "NSCameraUsageDescription": "Monae requires camera access for verification.",
+        "NSCameraUsageDescription": "Monae requires camera access for verification.",
         "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
-      "permissions": ["android.permission.CAMERA", "android.permission.INTERNET"],
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.INTERNET",
+        "android.permission.CAMERA",
+        "android.permission.INTERNET"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png",
@@ -67,6 +72,12 @@
       "eas": {
         "projectId": "d0e952e4-3e5e-4107-8fe4-23a4ae074f3f"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/d0e952e4-3e5e-4107-8fe4-23a4ae074f3f"
     }
   }
 }
